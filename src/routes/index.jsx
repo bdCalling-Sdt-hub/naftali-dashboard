@@ -27,7 +27,7 @@ import Faq from "../components/ui/Settings/Faq";
 import AboutUs from "../components/ui/Settings/AboutUs";
 import OfferList from "../components/ui/Settings/OfferList";
 import Orders from "../Pages/Dashboard/Orders";
-import Cancellation from "../Pages/Dashboard/Cancellation";
+
 import Vendor from "../Pages/Dashboard/Vendor";
 import Freelancers from "../Pages/Freelancers";
 import ProfileBanner from "../Pages/Dashboard/Banners/ProfileBanner";
@@ -139,10 +139,7 @@ const router = createBrowserRouter([
         path: "/change-password",
         element: <ChangePassword />,
       },
-      {
-        path: "/cancellation",
-        element: <Cancellation />,
-      },
+
       {
         path: "f-a-q",
         element: <Faq />,

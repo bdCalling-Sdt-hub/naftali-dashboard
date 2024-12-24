@@ -86,7 +86,7 @@ const Notifications = () => {
   const notifications = [];
   const notificationData = notifications.data;
 
-  console.log(notificationData);
+  // console.log(notificationData);
 
   const paginatedData = notificationsData.slice(
     (page - 1) * pageSize,

@@ -17,6 +17,9 @@ const Freelancers = () => {
       subjects: ["Math", "Physics"],
       profileImg: "https://randomuser.me/api/portraits/women/20.jpg",
       status: "Active",
+      rating: 4.5,
+      totalCourses: 5,
+      totalStudents: 120,
     },
     {
       id: "2",
@@ -27,6 +30,9 @@ const Freelancers = () => {
       subjects: ["English", "History"],
       profileImg: "https://randomuser.me/api/portraits/men/21.jpg",
       status: "On Leave",
+      rating: 3.8,
+      totalCourses: 3,
+      totalStudents: 80,
     },
     {
       id: "3",
@@ -37,6 +43,9 @@ const Freelancers = () => {
       subjects: ["Biology", "Chemistry"],
       profileImg: "https://randomuser.me/api/portraits/women/22.jpg",
       status: "Active",
+      rating: 4.7,
+      totalCourses: 7,
+      totalStudents: 150,
     },
     {
       id: "4",
@@ -47,6 +56,9 @@ const Freelancers = () => {
       subjects: ["Business Studies"],
       profileImg: "https://randomuser.me/api/portraits/men/23.jpg",
       status: "Retired",
+      rating: 3.5,
+      totalCourses: 4,
+      totalStudents: 95,
     },
     {
       id: "5",
@@ -57,6 +69,9 @@ const Freelancers = () => {
       subjects: ["Art", "Design"],
       profileImg: "https://randomuser.me/api/portraits/women/24.jpg",
       status: "Active",
+      rating: 4.2,
+      totalCourses: 6,
+      totalStudents: 110,
     },
   ];
 
@@ -115,8 +130,25 @@ const Freelancers = () => {
       },
     },
     {
+      title: "Rating",
+      dataIndex: "rating",
+      key: "rating",
+      align: "center",
+      sorter: (a, b) => a.rating - b.rating,
+      render: (rating) => <span>{rating}</span>,
+    },
+    {
+      title: "Courses",
+      dataIndex: "totalCourses",
+      key: "totalCourses",
+      align: "center",
+      render: (totalCourses) => <span>{totalCourses}</span>,
+    },
+
+    {
       title: "Actions",
       key: "actions",
+      align: "center",
       render: (text, record) => (
         <Space>
           <Link to={`/freelancer/profile/${record.id}`}>
@@ -132,7 +164,7 @@ const Freelancers = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold my-5">Teachers</h1>
+      <h1 className="text-2xl font-semibold my-5">Freelancers</h1>
       <Table
         columns={columns}
         dataSource={teachers}
