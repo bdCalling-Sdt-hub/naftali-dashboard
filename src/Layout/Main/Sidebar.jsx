@@ -8,18 +8,23 @@ import {
 } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { TbUserScreen } from "react-icons/tb";
+import { TbSettingsStar, TbUserScreen } from "react-icons/tb";
 import { IoIosLogOut } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
 
 import { PiUserPlus } from "react-icons/pi";
 import { LuLayoutDashboard } from "react-icons/lu";
 import Cookies from "js-cookie";
-import logo from "../../assets/barberMeLogo.png";
+import logo from "../../assets/logo.png";
 import { DiGoogleAnalytics } from "react-icons/di";
 import { BiSolidCategoryAlt } from "react-icons/bi";
-import { FaMoneyBillTransfer, FaScissors } from "react-icons/fa6";
+import {
+  FaClipboardUser,
+  FaMoneyBillTransfer,
+  FaScissors,
+} from "react-icons/fa6";
 import { FaBorderStyle } from "react-icons/fa";
+import { TfiLayoutSlider } from "react-icons/tfi";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -52,70 +57,152 @@ const Sidebar = () => {
     //   icon: <DiGoogleAnalytics size={24} />,
     //   label: <Link to="/transactions">Transactions</Link>,
     // },
-    {
-      key: "/banners",
-      icon: <MdFeaturedPlayList size={24} />,
-      label: <Link to="/banners">Banners</Link>,
-    },
+    // {
+    //   key: "/banners",
+    //   icon: <MdFeaturedPlayList size={24} />,
+    //   label: <Link to="/banners">Banners</Link>,
+    // },
     // {
     //   key: "/category",
     //   icon: <BiSolidCategoryAlt size={24} />,
     //   label: <Link to="/category">Category</Link>,
     // },
     {
-      key: "/users",
+      key: "/students",
       icon: <TbUserScreen size={24} />,
-      label: <Link to="/users">Users</Link>,
+      label: <Link to="/students">Students</Link>,
     },
     {
-      key: "/vendors",
+      key: "Teachers",
       icon: <PiUserPlus size={24} />,
-      label: <Link to="/vendors">Barbers</Link>,
-    },
-    {
-      key: "subMenuSalon",
-      icon: <FaScissors size={24} />,
-      label: "Salon",
+      label: "Teachers",
       children: [
         {
-          key: "/services",
-          icon: <MdMiscellaneousServices size={24} />,
+          key: "/teachers",
+          icon: <PiUserPlus size={24} />,
           label: (
-            <Link to="/services" className="text-white hover:text-white">
-              Services
+            <Link to="/teachers" className="text-white hover:text-white">
+              Teachers
             </Link>
           ),
         },
         {
-          key: "/salon-category",
-          icon: <BiSolidCategoryAlt size={24} />,
+          key: "/freelancers",
+          icon: <PiUserPlus size={24} />,
           label: (
-            <Link to="/salon-category" className="text-white hover:text-white">
-              Category
-            </Link>
-          ),
-        },
-        {
-          key: "/sub-category",
-          icon: <MdCategory size={24} />,
-          label: (
-            <Link to="/sub-category" className="text-white hover:text-white">
-              Sub Category
+            <Link to="/freelancers" className="text-white hover:text-white">
+              Freelancers
             </Link>
           ),
         },
       ],
     },
     {
-      key: "/orders",
-      icon: <FaBorderStyle size={24} />,
-      label: <Link to="/orders">Orders</Link>,
+      key: "BannerMenu",
+      icon: <MdFeaturedPlayList size={24} />,
+      label: "Banners",
+      children: [
+        {
+          key: "/homeBanner",
+          icon: <MdFeaturedPlayList size={24} />,
+          label: (
+            <Link to="/banners" className="text-white hover:text-white">
+              Home Banners
+            </Link>
+          ),
+        },
+        {
+          key: "/homeSlider",
+          icon: <TfiLayoutSlider size={24} />,
+          label: (
+            <Link to="/sliders" className="text-white hover:text-white">
+              Home Sliders
+            </Link>
+          ),
+        },
+        {
+          key: "/profileBanner",
+          icon: <FaClipboardUser size={24} />,
+          label: (
+            <Link to="/profileBanner" className="text-white hover:text-white">
+              Profile Banner
+            </Link>
+          ),
+        },
+      ],
     },
     {
-      key: "/cancellation",
-      icon: <MdCancelPresentation size={24} />,
-      label: <Link to="/cancellation">Cancellation</Link>,
+      key: "CoursesMenu",
+      icon: <TbSettingsStar size={24} />,
+      label: "Courses",
+      children: [
+        {
+          key: "/OfflineCourses",
+          icon: <MdMiscellaneousServices size={24} />,
+          label: (
+            <Link to="/offline-courses" className="text-white hover:text-white">
+              Offline Courses
+            </Link>
+          ),
+        },
+        {
+          key: "/freelancerCourses",
+          icon: <BiSolidCategoryAlt size={24} />,
+          label: (
+            <Link
+              to="/freelancer-courses"
+              className="text-white hover:text-white"
+            >
+              Freelancer Courses
+            </Link>
+          ),
+        },
+        {
+          key: "/manageCourses",
+          icon: <MdCategory size={24} />,
+          label: (
+            <Link to="/manage-courses" className="text-white hover:text-white">
+              Manage Courses
+            </Link>
+          ),
+        },
+      ],
     },
+    {
+      key: "MyTeam",
+      icon: <TbSettingsStar size={24} />,
+      label: "My Team",
+      children: [
+        {
+          key: "/manageAdmin",
+          icon: <MdMiscellaneousServices size={24} />,
+          label: (
+            <Link to="/manage-admin" className="text-white hover:text-white">
+              Admin
+            </Link>
+          ),
+        },
+        {
+          key: "/manageTeachers",
+          icon: <BiSolidCategoryAlt size={24} />,
+          label: (
+            <Link to="/manage-teachers" className="text-white hover:text-white">
+              Teachers
+            </Link>
+          ),
+        },
+      ],
+    },
+    {
+      key: "/seminars",
+      icon: <FaBorderStyle size={24} />,
+      label: <Link to="/seminars">Seminars</Link>,
+    },
+    // {
+    //   key: "/cancellation",
+    //   icon: <MdCancelPresentation size={24} />,
+    //   label: <Link to="/cancellation">Cancellation</Link>,
+    // },
     {
       key: "/our-transactions",
       icon: <FaMoneyBillTransfer size={24} />,

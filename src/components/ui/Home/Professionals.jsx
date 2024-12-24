@@ -1,5 +1,5 @@
 import randomImg from "../../../assets/randomProfile2.jpg";
-import salongoLogo from "../../../assets/salon-go-logo.png";
+import logo from "../../../assets/logo.png";
 
 // Dummy data for Professionals Component
 
@@ -45,7 +45,7 @@ const Professionals = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <img src={salongoLogo} alt="" />
+        <img src={logo} alt="" />
       </div>
     );
   }
@@ -58,7 +58,7 @@ const Professionals = () => {
 
   return (
     <div className="md:w-[60%] border h-[290px] bg-white rounded-2xl pb-5 md:flex flex-col justify-center">
-      <p className="text-base font-semibold px-10 py-4">Professionals</p>
+      <p className="text-base font-semibold px-10 py-4">Top Teachers</p>
       <div className="md:flex flex-col px-10 gap-4">
         {topProfessionals?.map((value, index) => (
           <div key={index} className="flex items-center gap-4">

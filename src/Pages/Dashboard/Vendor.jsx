@@ -1,41 +1,42 @@
 import React from "react";
 import { Avatar, Card, Table, Space, Button } from "antd";
-import { Link } from "react-router-dom";
 import randomImg from "../../assets/randomProfile2.jpg";
 
-const Vendor = () => {
-  const barber = {
+const TeacherDetails = () => {
+  const teacher = {
     id: "1",
-    name: "John Doe",
-    email: "john@example.com",
-    phoneNumber: "+123456789",
-    address: "123 Main St, Cityville",
-    experienceLevel: "Senior",
-    rating: 4.8,
-    totalServices: 120,
-    totalEarnings: "$6000",
+    name: "Jane Doe",
+    email: "jane.doe@example.com",
+    phoneNumber: "+987654321",
+    address: "45 Elm Street, Springfield",
+    department: "Mathematics",
+    subjects: ["Algebra", "Calculus", "Geometry"],
+    yearsOfExperience: 10,
+    rating: 4.9,
     status: "Active",
-    profileImg: "https://randomuser.me/api/portraits/men/1.jpg",
+    totalClasses: 150,
+    totalStudents: 300,
+    profileImg: "https://randomuser.me/api/portraits/women/1.jpg",
     reviews: [
       {
         id: "r1",
-        customerName: "Alice Johnson",
+        studentName: "Emily Brown",
         rating: 5,
-        comment: "Great service, very professional!",
+        comment: "Amazing teacher, highly recommend!",
         date: "2023-12-12",
       },
       {
         id: "r2",
-        customerName: "Bob Smith",
+        studentName: "Michael Green",
         rating: 4,
-        comment: "Good experience overall.",
+        comment: "Very knowledgeable and helpful.",
         date: "2023-12-10",
       },
       {
         id: "r3",
-        customerName: "Charlie Brown",
-        rating: 3,
-        comment: "Service was okay, could be better.",
+        studentName: "Sophia White",
+        rating: 4,
+        comment: "Explains concepts well, but a bit fast-paced.",
         date: "2023-12-09",
       },
     ],
@@ -43,9 +44,9 @@ const Vendor = () => {
 
   const columns = [
     {
-      title: "Customer Name",
-      dataIndex: "customerName",
-      key: "customerName",
+      title: "Student Name",
+      dataIndex: "studentName",
+      key: "studentName",
     },
     {
       title: "Rating",
@@ -106,69 +107,75 @@ const Vendor = () => {
           <div className="flex flex-col items-center justify-center gap-5">
             <div className=" border-4 p-1 rounded-full">
               <img
-                src={barber.profileImg || randomImg}
-                alt={barber.name}
+                src={teacher.profileImg || randomImg}
+                alt={teacher.name}
                 size={100}
                 className="border-2 w-[200px] h-[200px] rounded-full  border-gray-300"
               />
             </div>
             <div className="text-center">
               <h2 className="text-3xl font-bold text-gray-800">
-                {barber.name}
+                {teacher.name}
               </h2>
               <p className="text-gray-600 text-lg font-semibold">
-                {barber.email}
+                {teacher.email}
               </p>
             </div>
           </div>
           <div className="ml-4 text-xl flex flex-col gap-1">
             <p className="text-gray-600">
-              <span className="font-semibold">Experience Level:</span>{" "}
-              {barber.experienceLevel}
+              <span className="font-semibold">Department:</span>{" "}
+              {teacher.department}
             </p>
-
             <p className="text-gray-600">
               <span className="font-semibold">Phone Number:</span>{" "}
-              {barber.phoneNumber}
+              {teacher.phoneNumber}
             </p>
             <p className="text-gray-600">
-              <span className="font-semibold">Address: </span>
-              {barber.address}
+              <span className="font-semibold">Address:</span> {teacher.address}
             </p>
             <p className="text-gray-600">
-              <span className="font-semibold">Total Services</span>{" "}
-              {barber.totalServices}
+              <span className="font-semibold">Years of Experience:</span>{" "}
+              {teacher.yearsOfExperience}
             </p>
             <p className="text-gray-600">
-              <span className="font-semibold">Total Earnings:</span>{" "}
-              {barber.totalEarnings}
+              <span className="font-semibold">Subjects:</span>{" "}
+              {teacher.subjects.join(", ")}
             </p>
             <p className="text-gray-600">
-              <span className="font-semibold"> Status:</span>{" "}
+              <span className="font-semibold">Total Classes:</span>{" "}
+              {teacher.totalClasses}
+            </p>
+            <p className="text-gray-600">
+              <span className="font-semibold">Total Students:</span>{" "}
+              {teacher.totalStudents}
+            </p>
+            <p className="text-gray-600">
+              <span className="font-semibold">Status:</span>
               <span
                 className={`px-2 py-1  ${
-                  barber.status === "Active"
+                  teacher.status === "Active"
                     ? "text-green-500"
-                    : barber.status === "Inactive"
+                    : teacher.status === "Inactive"
                     ? "text-red-500"
                     : "text-orange-500"
                 }`}
               >
-                {barber.status}
+                {teacher.status}
               </span>
             </p>
             <p className="text-gray-600">
               <span className="font-semibold">Average Rating:</span>{" "}
-              {barber.rating}
+              {teacher.rating}
             </p>
           </div>
         </div>
       </div>
 
-      <Card title="Customer Reviews" className="shadow-lg mt-20">
+      <Card title="Student Reviews" className="shadow-lg mt-20">
         <Table
           columns={columns}
-          dataSource={barber.reviews}
+          dataSource={teacher.reviews}
           rowKey={(record) => record.id}
         />
       </Card>
@@ -176,4 +183,4 @@ const Vendor = () => {
   );
 };
 
-export default Vendor;
+export default TeacherDetails;

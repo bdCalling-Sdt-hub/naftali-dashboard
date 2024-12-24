@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { ConfigProvider, Pagination } from "antd";
 import Title from "../../components/common/Title";
-import { useNotificationQuery } from "../../redux/apiSlices/notificationSlice";
 import rentMeLogo from "../../assets/navLogo.png";
 
 const notificationsData = [
@@ -98,7 +97,7 @@ const Notifications = () => {
     <div>
       <div className="flex items-center justify-between mb-4">
         <Title className="text-[22px]">All Notifications</Title>
-        <button className="bg-[#5c2579cc] text-white h-10 px-4 rounded-md">
+        <button className="bg-[#b58700] text-white h-10 px-4 rounded-md">
           Read All
         </button>
       </div>
@@ -137,8 +136,7 @@ const Notifications = () => {
           theme={{
             components: {
               Pagination: {
-                itemActiveBg: "#FFE133",
-                borderRadius: "100%",
+                itemActiveBg: "#b58700",
               },
             },
           }}

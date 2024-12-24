@@ -64,6 +64,14 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     } else if (result.error.status === 400) {
       // Handle bad request errors
       console.error("Bad request error:", result.error);
+    } else if (result.error && result.error.originalStatus === 200) {
+      // Check if the response is HTML (unexpected)
+      if (
+        typeof result.error.data === "string" &&
+        result.error.data.startsWith("<!DOCTYPE")
+      ) {
+        console.error("Received unexpected HTML response:", result.error.data);
+      }
     } else {
       // Handle unexpected errors
       console.error("Unexpected error:", result.error);

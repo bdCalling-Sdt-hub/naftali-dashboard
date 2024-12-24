@@ -77,8 +77,8 @@ const TotalEarning = () => {
           <Area
             type="monotone"
             dataKey="revenue"
-            stroke="#5c2579cc"
-            fill="#f6e7ff"
+            stroke="#b58700"
+            fill="#f7e6b4"
           />
         </AreaChart>
       </ResponsiveContainer>

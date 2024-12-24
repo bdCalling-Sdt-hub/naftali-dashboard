@@ -1,71 +1,107 @@
 import React, { useState } from "react";
-import { Table, Button, Space, Avatar, Select } from "antd";
+import { Table, Button, Space, Avatar, Modal, Form, Input, Upload } from "antd";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import randomImg from "../../assets/randomProfile2.jpg";
 
-const Vendors = () => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+const Teachers = () => {
   const [pageSize, setPageSize] = useState(10);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [form] = Form.useForm();
 
-  // Dummy data for barbers
-  const barbers = {
-    data: {
-      data: [
-        {
-          id: "1",
-          name: "John Doe",
-          email: "john@example.com",
-          phoneNumber: "+123456789",
-          address: "123 Main St, Cityville",
-          experienceLevel: "Senior",
-          rating: 4.8,
-          totalServices: 120,
-          totalEarnings: "$6000",
-          status: "Active",
-          profileImg: "https://randomuser.me/api/portraits/men/1.jpg",
-          complaint: null,
-        },
-        {
-          id: "2",
-          name: "Jane Smith",
-          email: "jane@example.com",
-          phoneNumber: "+123456780",
-          address: "456 Secondary St, Townsville",
-          experienceLevel: "Intermediate",
-          rating: 4.5,
-          totalServices: 200,
-          totalEarnings: "$8000",
-          status: "Inactive",
-          profileImg: "https://randomuser.me/api/portraits/women/2.jpg",
-          complaint: null,
-        },
-        {
-          id: "3",
-          name: "Sam Wilson",
-          email: "sam@example.com",
-          phoneNumber: "+123456781",
-          address: "789 Tertiary St, Suburb",
-          experienceLevel: "Junior",
-          rating: 4.2,
-          totalServices: 50,
-          totalEarnings: "$2000",
-          status: "Suspended",
-          profileImg: "https://randomuser.me/api/portraits/men/3.jpg",
-          complaint: {
-            reason: "Violation of salon policies",
-            amount: "$50",
-          },
-        },
-        // Add more dummy barbers as needed
-      ],
+  // Dummy data for teachers
+  const teachers = [
+    {
+      id: "1",
+      name: "Alice Johnson",
+      email: "alice.johnson@example.com",
+      phoneNumber: "+123456789",
+      address: "45 Willow St, Springfield",
+      subjects: ["Math", "Physics"],
+      profileImg: "https://randomuser.me/api/portraits/women/20.jpg",
+      status: "Active",
     },
-  };
-
-  const data = barbers?.data?.data;
-
-  const onSelectChange = (newSelectedRowKeys) => {
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
+    {
+      id: "2",
+      name: "Bob Smith",
+      email: "bob.smith@example.com",
+      phoneNumber: "+987654321",
+      address: "67 Pine St, Springfield",
+      subjects: ["English", "History"],
+      profileImg: "https://randomuser.me/api/portraits/men/21.jpg",
+      status: "On Leave",
+    },
+    {
+      id: "3",
+      name: "Carla Evans",
+      email: "carla.evans@example.com",
+      phoneNumber: "+112233445",
+      address: "23 Elm St, Springfield",
+      subjects: ["Biology", "Chemistry"],
+      profileImg: "https://randomuser.me/api/portraits/women/22.jpg",
+      status: "Active",
+    },
+    {
+      id: "4",
+      name: "David Brown",
+      email: "david.brown@example.com",
+      phoneNumber: "+998877665",
+      address: "89 Oak St, Springfield",
+      subjects: ["Computer Science", "Math"],
+      profileImg: "https://randomuser.me/api/portraits/men/23.jpg",
+      status: "Retired",
+    },
+    {
+      id: "5",
+      name: "Ella Williams",
+      email: "ella.williams@example.com",
+      phoneNumber: "+554433221",
+      address: "12 Cedar St, Springfield",
+      subjects: ["Art", "Music"],
+      profileImg: "https://randomuser.me/api/portraits/women/24.jpg",
+      status: "Active",
+    },
+    {
+      id: "6",
+      name: "Frank Harris",
+      email: "frank.harris@example.com",
+      phoneNumber: "+667788990",
+      address: "34 Birch St, Springfield",
+      subjects: ["Economics", "Political Science"],
+      profileImg: "https://randomuser.me/api/portraits/men/25.jpg",
+      status: "On Leave",
+    },
+    {
+      id: "7",
+      name: "Grace Turner",
+      email: "grace.turner@example.com",
+      phoneNumber: "+112358132",
+      address: "78 Aspen St, Springfield",
+      subjects: ["Physical Education", "Health"],
+      profileImg: "https://randomuser.me/api/portraits/women/26.jpg",
+      status: "Active",
+    },
+    {
+      id: "8",
+      name: "Henry Moore",
+      email: "henry.moore@example.com",
+      phoneNumber: "+334455667",
+      address: "56 Maple St, Springfield",
+      subjects: ["Philosophy", "Sociology"],
+      profileImg: "https://randomuser.me/api/portraits/men/27.jpg",
+      status: "Retired",
+    },
+    {
+      id: "9",
+      name: "Isla Bennett",
+      email: "isla.bennett@example.com",
+      phoneNumber: "+445566778",
+      address: "90 Redwood St, Springfield",
+      subjects: ["French", "Spanish"],
+      profileImg: "https://randomuser.me/api/portraits/women/28.jpg",
+      status: "Active",
+    },
+  ];
 
   const columns = [
     {
@@ -80,13 +116,9 @@ const Vendors = () => {
       render: (text, record) => {
         const name = record.name || "Unknown";
         const imgUrl = record.profileImg || randomImg;
-        const fullImgUrl = imgUrl.startsWith("http")
-          ? imgUrl
-          : `${import.meta.env.VITE_BASE_URL}${imgUrl}`;
-
         return (
           <Space>
-            <Avatar src={fullImgUrl} alt={name} size="large" />
+            <Avatar src={imgUrl} alt={name} size="large" />
             <span>{name}</span>
           </Space>
         );
@@ -108,142 +140,149 @@ const Vendors = () => {
       key: "address",
     },
     {
-      title: "Experience Level",
-      dataIndex: "experienceLevel",
-      key: "experienceLevel",
-    },
-    {
-      title: "Rating",
-      dataIndex: "rating",
-      key: "rating",
-      sorter: (a, b) => a.rating - b.rating,
-      render: (rating) => `${rating}`,
-    },
-    {
-      title: "Total Services",
-      dataIndex: "totalServices",
-      key: "totalServices",
-      sorter: (a, b) => a.totalServices - b.totalServices,
-    },
-    {
-      title: "Total Earnings",
-      dataIndex: "totalEarnings",
-      key: "totalEarnings",
-      sorter: (a, b) =>
-        parseFloat(a.totalEarnings.replace("$", "")) -
-        parseFloat(b.totalEarnings.replace("$", "")),
+      title: "Subjects",
+      dataIndex: "subjects",
+      key: "subjects",
+      render: (subjects) => subjects.join(", "),
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
       render: (status) => {
-        let color;
-        switch (status) {
-          case "Active":
-            color = "green";
-            break;
-          case "Inactive":
-            color = "red";
-            break;
-          case "Suspended":
-            color = "orange";
-            break;
-          default:
-            color = "gray";
-        }
+        let color = "green";
+        if (status === "On Leave") color = "orange";
+        if (status === "Retired") color = "gray";
 
         return <span style={{ color }}>{status}</span>;
       },
     },
     {
-      title: "Complaint",
-      dataIndex: "complaint",
-      key: "complaint",
-      filters: [
-        { text: "None", value: "None" },
-        { text: "Has Complaints", value: "HasComplaints" },
-      ],
-      onFilter: (value, record) => {
-        if (value === "None") {
-          return !record.complaint;
-        } else if (value === "HasComplaints") {
-          return record.complaint !== null;
-        }
-        return true;
-      },
-      render: (complaint) =>
-        complaint ? (
-          <span className="text-red-700 font-semibold">
-            {complaint.amount},<br /> for {complaint.reason}
-          </span>
-        ) : (
-          "None"
-        ),
-    },
-    {
       title: "Actions",
       key: "actions",
+      align: "center",
       render: (text, record) => (
         <Space>
-          <Link to={`/barber/profile/${record.id}`}>
-            <Button className="bg-[#FFF4E3] text-[#F3B806] border-none">
+          <Link to={`/teacher/profile/${record.id}`}>
+            <Button className="bg-secondary text-black border-none">
               Details
             </Button>
           </Link>
-
-          <Button className="border border-red-600 text-red-700">
-            Restrict
-          </Button>
+          <Button className="border border-red-600 text-red-700">Remove</Button>
         </Space>
       ),
     },
   ];
 
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-    selections: [
-      Table.SELECTION_ALL,
-      Table.SELECTION_INVERT,
-      Table.SELECTION_NONE,
-      {
-        key: "odd",
-        text: "Select Odd Row",
-        onSelect: (changeableRowKeys) => {
-          let newSelectedRowKeys = changeableRowKeys.filter(
-            (_, index) => index % 2 === 0
-          );
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
-      {
-        key: "even",
-        text: "Select Even Row",
-        onSelect: (changeableRowKeys) => {
-          let newSelectedRowKeys = changeableRowKeys.filter(
-            (_, index) => index % 2 !== 0
-          );
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
-    ],
+  const handleAddTeacher = (values) => {
+    console.log("New Teacher:", values);
+    setIsModalVisible(false);
+    form.resetFields();
   };
 
   return (
     <>
-      <h1 className="text-2xl font-semibold  my-5">Barbers</h1>
+      <div className="flex justify-between items-center my-5">
+        <h1 className="text-2xl font-semibold">Teachers</h1>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => setIsModalVisible(true)}
+        >
+          Add New Teacher
+        </Button>
+      </div>
+
       <Table
-        className="bg-white"
-        pagination={{
-          pageSize: pageSize,
-        }}
         columns={columns}
-        dataSource={data}
+        dataSource={teachers}
+        pagination={{ pageSize, onChange: (page) => setPageSize(page) }}
+        scroll={{ x: 1000 }}
         rowKey={(record) => record.id}
       />
+
+      <Modal
+        title="Add New Teacher"
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+      >
+        <Form form={form} layout="vertical" onFinish={handleAddTeacher}>
+          <Form.Item
+            name="name"
+            label="Name"
+            rules={[
+              { required: true, message: "Please enter the teacher's name" },
+            ]}
+          >
+            <Input placeholder="Enter name" />
+          </Form.Item>
+
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              {
+                required: true,
+                type: "email",
+                message: "Please enter a valid email",
+              },
+            ]}
+          >
+            <Input placeholder="Enter email" />
+          </Form.Item>
+
+          <Form.Item
+            name="phoneNumber"
+            label="Phone Number"
+            rules={[
+              { required: true, message: "Please enter the phone number" },
+            ]}
+          >
+            <Input placeholder="Enter phone number" />
+          </Form.Item>
+
+          <Form.Item
+            name="address"
+            label="Address"
+            rules={[{ required: true, message: "Please enter the address" }]}
+          >
+            <Input placeholder="Enter address" />
+          </Form.Item>
+
+          <Form.Item
+            name="subjects"
+            label="Subjects"
+            rules={[
+              {
+                required: true,
+                message: "Please enter subjects separated by commas",
+              },
+            ]}
+          >
+            <Input placeholder="Enter subjects (e.g., Math, Physics)" />
+          </Form.Item>
+
+          <Form.Item
+            name="profileImg"
+            label="Profile Image"
+            valuePropName="fileList"
+            getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
+          >
+            <Upload maxCount={1} beforeUpload={() => false}>
+              <Button icon={<UploadOutlined />}>Upload Image</Button>
+            </Upload>
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Add Teacher
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 };
 
-export default Vendors;
+export default Teachers;

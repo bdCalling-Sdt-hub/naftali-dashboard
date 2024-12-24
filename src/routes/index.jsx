@@ -5,10 +5,8 @@ import Home from "../Pages/Dashboard/Home";
 import Users from "../Pages/Dashboard/Users";
 import Admin from "../Pages/Dashboard/Admin";
 import PrivacyPolicy from "../Pages/Dashboard/PrivacyPolicy";
-
 import ChangePassword from "../Pages/Auth/ChangePassword";
 import Login from "../Pages/Auth/Login";
-import Subscription from "../Pages/Dashboard/Subscription";
 import ForgotPassword from "../Pages/Auth/ForgotPassword";
 import VerifyOtp from "../Pages/Auth/VerifyOtp";
 import ResetPassword from "../Pages/Auth/ResetPassword";
@@ -16,36 +14,34 @@ import NotFound from "../NotFound";
 import Notifications from "../Pages/Dashboard/Notifications";
 import AdminProfile from "../Pages/Dashboard/AdminProfile/AdminProfile";
 import User from "../Pages/Dashboard/User";
-
-import Press from "../Pages/Dashboard/Press";
 import Transactions from "../Pages/Dashboard/Transactions";
-
-import Promotion from "../Pages/Dashboard/Promotion";
-
 import UserProfile from "../Pages/Dashboard/AdminProfile/UserProfile";
 import TermsAndCondition from "../Pages/Dashboard/TermsAndCondition";
-
 import Vendors from "../Pages/Dashboard/Vendors";
 import PrivateRoute from "./PrivateRoute";
 import Banners from "../Pages/Dashboard/Banners";
 import EditBanners from "../components/ui/Banners/EditBanners";
 import AddBanners from "../components/ui/Banners/AddBanners";
-
 import OurTransactions from "../Pages/Dashboard/OurTransactions";
 import Faq from "../components/ui/Settings/Faq";
 import AboutUs from "../components/ui/Settings/AboutUs";
 import OfferList from "../components/ui/Settings/OfferList";
 import Orders from "../Pages/Dashboard/Orders";
 import Cancellation from "../Pages/Dashboard/Cancellation";
-import Services from "../Pages/Dashboard/Salon/Services";
-import Category from "../Pages/Dashboard/Salon/Category";
-import SubCategory from "../Pages/Dashboard/Salon/SubCategory";
 import Vendor from "../Pages/Dashboard/Vendor";
+import Freelancers from "../Pages/Freelancers";
+import ProfileBanner from "../Pages/Dashboard/Banners/ProfileBanner";
+import HomeSlider from "../Pages/Dashboard/Banners/homeSlider";
+import OfflineCourses from "../Pages/Courses/OfflineCourses";
+import FreelancersCourses from "../Pages/Courses/FreelancersCourses";
+import ManageCourses from "../Pages/Courses/ManageCourses";
+import ManageAdmin from "../Pages/MyTeam/ManageAdmin";
+import ManageTeachers from "../Pages/MyTeam/ManageTeachers";
+import Seminars from "../Pages/Seminars";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    // element: <ProtectedRoute><Main /></ProtectedRoute> ,
     element: (
       // <PrivateRoute>
       <Main />
@@ -69,47 +65,72 @@ const router = createBrowserRouter([
         element: <Banners />,
       },
       {
+        path: "/sliders",
+        element: <HomeSlider />,
+      },
+      {
+        path: "/profileBanner",
+        element: <ProfileBanner />,
+      },
+      {
         path: "/update-banner/:id",
         element: <EditBanners />,
       },
       {
-        path: "/user/profile/:id",
+        path: "/offline-courses",
+        element: <OfflineCourses />,
+      },
+      {
+        path: "/freelancer-courses",
+        element: <FreelancersCourses />,
+      },
+      {
+        path: "/manage-courses",
+        element: <ManageCourses />,
+      },
+      {
+        path: "/student/profile/:id",
         element: <User />,
       },
       {
-        path: "/barber/profile/:id",
+        path: "/teacher/profile/:id",
+        element: <Vendor />,
+      },
+      {
+        path: "/freelancer/profile/:id",
         element: <Vendor />,
       },
 
       {
-        path: "/users",
+        path: "/students",
         element: <Users />,
       },
       {
-        path: "/vendors",
+        path: "/teachers",
         element: <Vendors />,
       },
       {
-        path: "/services",
-        element: <Services />,
+        path: "/freelancers",
+        element: <Freelancers />,
       },
       {
-        path: "/salon-category",
-        element: <Category />,
+        path: "/manage-admin",
+        element: <ManageAdmin />,
       },
       {
-        path: "/sub-category",
-        element: <SubCategory />,
+        path: "/manage-teachers",
+        element: <ManageTeachers />,
       },
+
       {
         path: "/our-transactions",
         element: <OurTransactions />,
       },
+      {
+        path: "/seminars",
+        element: <Seminars />,
+      },
 
-      // {
-      //   path: "/promotion",
-      //   element: <Promotion />,
-      // },
       {
         path: "/personal-information",
         element: <UserProfile />,
@@ -142,12 +163,6 @@ const router = createBrowserRouter([
         path: "/admin",
         element: <Admin />,
       },
-
-      // {
-      //   path: "/subscription",
-      //   element: <Subscription />,
-      // },
-
       {
         path: "/privacy-policy",
         element: <PrivacyPolicy />,
@@ -156,14 +171,6 @@ const router = createBrowserRouter([
         path: "/terms-and-condition",
         element: <TermsAndCondition />,
       },
-      // {
-      //   path: "/edit-terms-and-conditions",
-      //   element: <TermsAndCondition />,
-      // },
-      // {
-      //   path: "/press",
-      //   element: <Press />,
-      // },
 
       {
         path: "/change-password",
