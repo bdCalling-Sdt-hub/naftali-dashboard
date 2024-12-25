@@ -1,17 +1,21 @@
 import { Menu } from "antd";
 import React, { useEffect, useState } from "react";
 import {
+  MdAdminPanelSettings,
   MdCancelPresentation,
   MdCategory,
   MdFeaturedPlayList,
+  MdManageAccounts,
   MdMiscellaneousServices,
+  MdOutlineVideoLibrary,
+  MdOutlineVideoSettings,
 } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
-import { TbSettingsStar, TbUserScreen } from "react-icons/tb";
+import { RiFolderVideoFill, RiFolderVideoLine } from "react-icons/ri";
+import { TbSettingsCog, TbSettingsStar, TbUserScreen } from "react-icons/tb";
 import { IoIosLogOut } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
-
+import { BsMicrosoftTeams } from "react-icons/bs";
 import { PiUserPlus } from "react-icons/pi";
 import { LuLayoutDashboard } from "react-icons/lu";
 import Cookies from "js-cookie";
@@ -52,21 +56,7 @@ const Sidebar = () => {
         </Link>
       ),
     },
-    // {
-    //   key: "/transactions",
-    //   icon: <DiGoogleAnalytics size={24} />,
-    //   label: <Link to="/transactions">Transactions</Link>,
-    // },
-    // {
-    //   key: "/banners",
-    //   icon: <MdFeaturedPlayList size={24} />,
-    //   label: <Link to="/banners">Banners</Link>,
-    // },
-    // {
-    //   key: "/category",
-    //   icon: <BiSolidCategoryAlt size={24} />,
-    //   label: <Link to="/category">Category</Link>,
-    // },
+
     {
       key: "/students",
       icon: <TbUserScreen size={24} />,
@@ -103,7 +93,7 @@ const Sidebar = () => {
       label: "Banners",
       children: [
         {
-          key: "/homeBanner",
+          key: "/banners",
           icon: <MdFeaturedPlayList size={24} />,
           label: (
             <Link to="/banners" className="text-white hover:text-white">
@@ -112,7 +102,7 @@ const Sidebar = () => {
           ),
         },
         {
-          key: "/homeSlider",
+          key: "/sliders",
           icon: <TfiLayoutSlider size={24} />,
           label: (
             <Link to="/sliders" className="text-white hover:text-white">
@@ -133,12 +123,12 @@ const Sidebar = () => {
     },
     {
       key: "CoursesMenu",
-      icon: <TbSettingsStar size={24} />,
+      icon: <MdOutlineVideoLibrary size={24} />,
       label: "Courses",
       children: [
         {
-          key: "/OfflineCourses",
-          icon: <MdMiscellaneousServices size={24} />,
+          key: "/offline-courses",
+          icon: <RiFolderVideoFill size={24} />,
           label: (
             <Link to="/offline-courses" className="text-white hover:text-white">
               Offline Courses
@@ -146,8 +136,8 @@ const Sidebar = () => {
           ),
         },
         {
-          key: "/freelancerCourses",
-          icon: <BiSolidCategoryAlt size={24} />,
+          key: "/freelancer-courses",
+          icon: <RiFolderVideoLine size={24} />,
           label: (
             <Link
               to="/freelancer-courses"
@@ -158,8 +148,8 @@ const Sidebar = () => {
           ),
         },
         {
-          key: "/manageCourses",
-          icon: <MdCategory size={24} />,
+          key: "/manage-courses",
+          icon: <MdOutlineVideoSettings size={24} />,
           label: (
             <Link to="/manage-courses" className="text-white hover:text-white">
               Manage Courses
@@ -170,12 +160,12 @@ const Sidebar = () => {
     },
     {
       key: "MyTeam",
-      icon: <TbSettingsStar size={24} />,
+      icon: <BsMicrosoftTeams size={24} />,
       label: "My Team",
       children: [
         {
           key: "/manageAdmin",
-          icon: <MdMiscellaneousServices size={24} />,
+          icon: <MdAdminPanelSettings size={24} />,
           label: (
             <Link to="/manage-admin" className="text-white hover:text-white">
               Admin
@@ -184,7 +174,7 @@ const Sidebar = () => {
         },
         {
           key: "/manageTeachers",
-          icon: <BiSolidCategoryAlt size={24} />,
+          icon: <MdManageAccounts size={24} />,
           label: (
             <Link to="/manage-teachers" className="text-white hover:text-white">
               Teachers

@@ -108,3 +108,11 @@
 .ant-switch-checked {
   background-color: #b58700 !important;
 }
+
+.ant-btn:hover,
+.ant-btn:focus {
+  background-color: #fad977 !important;
+  border-color: white !important;
+  color: black !important;
+  box-shadow: none !important;
+}

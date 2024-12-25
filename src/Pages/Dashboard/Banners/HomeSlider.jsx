@@ -1,49 +1,53 @@
 import React, { useState } from "react";
 import { Modal, Button, Table, Switch, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import moment from "moment/moment";
 
-// Sample data for the existing sliders
 const initialSliders = [
   {
     id: 1,
     imageUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuFfpXFUGyr4cglfLsa_cr8DQoTfbfjmMMWA&s",
     isActive: true,
+    createdAt: "2024-12-25 12:00:00",
   },
   {
     id: 2,
     imageUrl:
       "https://www.codewithrandom.com/wp-content/uploads/2023/08/Copy-of-Copy-of-codewithrandom90.png",
     isActive: false,
+    createdAt: "2024-12-24 15:30:00",
   },
   {
     id: 3,
     imageUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI7YwuNzzifopHQUP5e8DqNlg30Og1NDvH_Q&s",
     isActive: true,
+    createdAt: "2024-12-23 10:45:00",
   },
 ];
 
-const SuperAdminDashboard = () => {
+const HomeSlider = () => {
   const [sliders, setSliders] = useState(initialSliders);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
   const [isViewerModalVisible, setIsViewerModalVisible] = useState(false);
-  const [newSlider, setNewSlider] = useState({ imageUrl: "", isActive: true });
+  const [newSlider, setNewSlider] = useState({
+    imageUrl: "",
+    isActive: true,
+    createdAt: "",
+  });
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  // Handle Add Slider Modal visibility
   const showAddModal = () => setIsAddModalVisible(true);
   const handleAddModalCancel = () => setIsAddModalVisible(false);
 
-  // Handle Image Viewer Modal visibility
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
     setIsViewerModalVisible(true);
   };
   const handleViewerModalCancel = () => setIsViewerModalVisible(false);
 
-  // Handle slider image upload
   const handleImageUpload = (info) => {
     if (info.file.status === "done") {
       setNewSlider((prev) => ({ ...prev, imageUrl: info.file.response.url }));
@@ -53,17 +57,19 @@ const SuperAdminDashboard = () => {
     }
   };
 
-  // Handle adding a new slider
   const handleAddSlider = () => {
     setLoading(true);
     const newId = sliders.length + 1;
-    const addedSlider = { ...newSlider, id: newId };
+    const addedSlider = {
+      ...newSlider,
+      id: newId,
+      createdAt: new Date().toLocaleString("en-US"),
+    };
     setSliders((prevSliders) => [...prevSliders, addedSlider]);
     setLoading(false);
     setIsAddModalVisible(false);
   };
 
-  // Handle status toggle
   const handleStatusToggle = (id) => {
     setSliders((prevSliders) =>
       prevSliders.map((slider) =>
@@ -72,14 +78,12 @@ const SuperAdminDashboard = () => {
     );
   };
 
-  // Handle delete
   const handleDelete = (id) => {
     setSliders((prevSliders) =>
       prevSliders.filter((slider) => slider.id !== id)
     );
   };
 
-  // Columns for the table
   const columns = [
     {
       title: "Image",
@@ -103,6 +107,14 @@ const SuperAdminDashboard = () => {
       ),
     },
     {
+      title: "Created At",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (record) => {
+        return <p>{moment(record).format("LLL")}</p>;
+      },
+    },
+    {
       title: "Actions",
       key: "actions",
       render: (text, record) => (
@@ -114,8 +126,8 @@ const SuperAdminDashboard = () => {
   ];
 
   return (
-    <div className="p-5 w-[60%]">
-      <Button onClick={showAddModal} className="mb-4 bg-primary">
+    <div className="p-5 w-[80%]">
+      <Button onClick={showAddModal} className="mb-4 text-white bg-primary">
         Add Slider
       </Button>
       <Table
@@ -125,7 +137,6 @@ const SuperAdminDashboard = () => {
         pagination={false}
       />
 
-      {/* Image Viewer Modal */}
       <Modal
         open={isViewerModalVisible}
         onCancel={handleViewerModalCancel}
@@ -137,14 +148,13 @@ const SuperAdminDashboard = () => {
           <img
             src={selectedImage}
             alt="Enlarged"
-            style={{ width: "100%", height: "auto" }}
+            style={{ width: "100%", height: "700px" }}
           />
         ) : (
           <p>Cannot find any images!</p>
         )}
       </Modal>
 
-      {/* Add Slider Modal */}
       <Modal
         title="Add New Slider"
         visible={isAddModalVisible}
@@ -155,7 +165,7 @@ const SuperAdminDashboard = () => {
         <div>
           <Upload
             name="sliderImage"
-            action="/upload" // Your API endpoint to upload images
+            action="/upload"
             showUploadList={false}
             onChange={handleImageUpload}
           >
@@ -176,4 +186,4 @@ const SuperAdminDashboard = () => {
   );
 };
 
-export default SuperAdminDashboard;
+export default HomeSlider;
