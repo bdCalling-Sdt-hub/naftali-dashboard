@@ -399,12 +399,7 @@ const OurTransactions = () => {
   return (
     <div className="p-6">
       {/* Page Heading */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Transactions</h1>
-        <button className="text-blue-500 hover:text-blue-700 flex items-center">
-          <BiLeftArrowAlt className="mr-2" /> Back to Dashboard
-        </button>
-      </div>
+      <h1 className="text-2xl text-center my-10 font-bold">Transactions</h1>
 
       {/* Transactions Table */}
       <div className="mb-8">

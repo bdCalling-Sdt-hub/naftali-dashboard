@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, Input, Modal, Upload, DatePicker, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import { IoMdAdd } from "react-icons/io";
 
 // Dummy data
 const initialSeminars = [
@@ -74,8 +75,8 @@ const SeminarPage = () => {
     <div className="p-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold mb-6">Our Seminars</h2>
-        <Button className="bg-primary text-white" onClick={showModal}>
-          Add Seminar
+        <Button className="bg-primary py-5 text-white" onClick={showModal}>
+          <IoMdAdd size={20} /> Add Seminar
         </Button>
       </div>
 

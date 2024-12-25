@@ -52,11 +52,11 @@ const GeneralStateSection = () => {
         <div className="flex flex-col items-start justify-center">
           <div className="flex gap-10">
             <div className="flex flex-col  bg-[#fdf9ed] px-4 rounded-2xl items-center">
-              <h1 className="text-xl font-semibold">Online</h1>
+              <h1 className="text-lg">Online</h1>
               <h1>{state?.totalActiveUsers?.online}</h1>
             </div>
             <div className="flex flex-col  bg-[#fdf9ed] px-4 rounded-2xl items-center">
-              <h1 className="text-xl font-semibold">Offline</h1>
+              <h1 className="text-lg">Offline</h1>
               <h1>{state?.totalActiveUsers?.Offline}</h1>
             </div>
           </div>
@@ -70,17 +70,17 @@ const GeneralStateSection = () => {
         <div className="flex flex-col items-start justify-center">
           <div className="flex gap-10">
             <div className="flex flex-col  bg-[#fdf9ed] px-4 rounded-2xl items-center">
-              <h1 className="text-xl font-semibold">Online</h1>
+              <h1 className="text-lg">Online</h1>
               <h1>{state?.totalEarning?.online}</h1>
             </div>
             <div className="flex flex-col  bg-[#fdf9ed] px-4 rounded-2xl items-center">
-              <h1 className="text-xl font-semibold">Offline</h1>
+              <h1 className="text-lg">Offline</h1>
               <h1>{state?.totalEarning?.Offline}</h1>
             </div>
           </div>
         </div>
       </div>
-      <div className="bg-white border rounded-2xl border py-0 px-6 flex flex-col items-center justify-start gap-4">
+      <div className="bg-white rounded-2xl border py-0 px-6 flex flex-col items-center justify-start gap-4">
         <div className="w-16 h-16 rounded-full mt-2 bg-secondary flex items-center justify-center">
           <IoPeople color="#210630" size={24} />
         </div>
@@ -88,11 +88,11 @@ const GeneralStateSection = () => {
         <div className="flex flex-col items-start justify-center">
           <div className="flex gap-10">
             <div className="flex flex-col  bg-[#fdf9ed] px-4 rounded-2xl items-center">
-              <h1 className="text-xl font-semibold">Online</h1>
+              <h1 className="text-lg">Online</h1>
               <h1>{state?.TotalStudents?.online}</h1>
             </div>
             <div className="flex flex-col  bg-[#fdf9ed] px-4 rounded-2xl items-center">
-              <h1 className="text-xl font-semibold">Offline</h1>
+              <h1 className="text-lg">Offline</h1>
               <h1>{state?.TotalStudents?.Offline}</h1>
             </div>
           </div>
@@ -106,11 +106,11 @@ const GeneralStateSection = () => {
         <div className="flex flex-col items-start justify-center">
           <div className="flex gap-10">
             <div className="flex flex-col bg-[#fdf9ed] px-4 rounded-2xl items-center">
-              <h1 className="text-xl font-semibold">Online</h1>
+              <h1 className="text-lg">Online</h1>
               <h1>{state?.totalTeachers?.freelancers}</h1>
             </div>
             <div className="flex flex-col  bg-[#fdf9ed] px-4 rounded-2xl items-center">
-              <h1 className="text-xl font-semibold">Offline</h1>
+              <h1 className="text-lg">Offline</h1>
               <h1>{state?.totalTeachers?.offline}</h1>
             </div>
           </div>
@@ -126,11 +126,11 @@ const GeneralStateSection = () => {
         <div className="flex flex-col items-start justify-center">
           <div className="flex gap-10">
             <div className="flex flex-col  bg-[#fdf9ed] px-4 rounded-2xl items-center">
-              <h1 className="text-lg font-semibold">Online</h1>
+              <h1 className="text-lg">Online</h1>
               <h1>{state?.totalSoldCourses?.online}</h1>
             </div>
             <div className="flex flex-col  bg-[#fdf9ed] px-4 rounded-2xl items-center">
-              <h1 className="text-xl font-semibold">Offline</h1>
+              <h1 className="text-lg">Offline</h1>
               <h1>{state?.totalSoldCourses?.Offline}</h1>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import moment from "moment";
-import { Button, Tabs } from "antd";
+import { Button, Select, Tabs } from "antd";
 import { SlCalender } from "react-icons/sl";
 import { IoTime } from "react-icons/io5";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
@@ -17,6 +17,7 @@ const coursesData = [
     lectures: 10,
     isFreelancer: false,
     status: "active",
+    language: "English",
   },
   {
     bannerImg: banner,
@@ -28,6 +29,7 @@ const coursesData = [
     lectures: 15,
     isFreelancer: true,
     status: "inactive",
+    language: "Spanish",
   },
   {
     bannerImg: banner,
@@ -39,6 +41,7 @@ const coursesData = [
     lectures: 12,
     isFreelancer: false,
     status: "active",
+    language: "Hibru",
   },
   {
     bannerImg: banner,
@@ -50,6 +53,7 @@ const coursesData = [
     lectures: 20,
     isFreelancer: true,
     status: "active",
+    language: "English",
   },
   {
     bannerImg: banner,
@@ -61,6 +65,7 @@ const coursesData = [
     lectures: 8,
     isFreelancer: false,
     status: "inactive",
+    language: "Spanish",
   },
   {
     bannerImg: banner,
@@ -72,6 +77,7 @@ const coursesData = [
     lectures: 25,
     isFreelancer: true,
     status: "active",
+    language: "Hibru",
   },
   {
     bannerImg: banner,
@@ -83,6 +89,7 @@ const coursesData = [
     lectures: 5,
     isFreelancer: false,
     status: "inactive",
+    language: "English",
   },
   {
     bannerImg: banner,
@@ -94,6 +101,7 @@ const coursesData = [
     lectures: 18,
     isFreelancer: true,
     status: "active",
+    language: "Spanish",
   },
   {
     bannerImg: banner,
@@ -105,6 +113,7 @@ const coursesData = [
     lectures: 30,
     isFreelancer: false,
     status: "active",
+    language: "Hibru",
   },
   {
     bannerImg: banner,
@@ -116,6 +125,7 @@ const coursesData = [
     lectures: 6,
     isFreelancer: true,
     status: "inactive",
+    language: "English",
   },
   {
     bannerImg: banner,
@@ -127,6 +137,7 @@ const coursesData = [
     lectures: 40,
     isFreelancer: false,
     status: "active",
+    language: "Spanish",
   },
   {
     bannerImg: banner,
@@ -138,6 +149,7 @@ const coursesData = [
     lectures: 7,
     isFreelancer: true,
     status: "active",
+    language: "Hibru",
   },
   {
     bannerImg: banner,
@@ -149,6 +161,7 @@ const coursesData = [
     lectures: 4,
     isFreelancer: false,
     status: "inactive",
+    language: "English",
   },
   {
     bannerImg: banner,
@@ -160,6 +173,7 @@ const coursesData = [
     lectures: 35,
     isFreelancer: true,
     status: "active",
+    language: "Spanish",
   },
   {
     bannerImg: banner,
@@ -171,6 +185,7 @@ const coursesData = [
     lectures: 10,
     isFreelancer: false,
     status: "active",
+    language: "Hibru",
   },
   {
     bannerImg: banner,
@@ -182,6 +197,7 @@ const coursesData = [
     lectures: 15,
     isFreelancer: true,
     status: "inactive",
+    language: "English",
   },
   {
     bannerImg: banner,
@@ -193,6 +209,7 @@ const coursesData = [
     lectures: 8,
     isFreelancer: false,
     status: "active",
+    language: "Spanish",
   },
   {
     bannerImg: banner,
@@ -204,6 +221,7 @@ const coursesData = [
     lectures: 5,
     isFreelancer: true,
     status: "inactive",
+    language: "Hibru",
   },
   {
     bannerImg: banner,
@@ -215,6 +233,7 @@ const coursesData = [
     lectures: 12,
     isFreelancer: false,
     status: "active",
+    language: "English",
   },
   {
     bannerImg: banner,
@@ -226,6 +245,7 @@ const coursesData = [
     lectures: 30,
     isFreelancer: true,
     status: "active",
+    language: "Spanish",
   },
 ];
 
@@ -233,6 +253,7 @@ const FreelancersCourses = () => {
   const [filteredCourses, setFilteredCourses] = useState(
     coursesData.filter((course) => course.status === "active")
   );
+  const [selectedLanguage, setSelectedLanguage] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const activeCoursesCount = coursesData.filter(
     (course) => course.status === "active"
@@ -247,6 +268,16 @@ const FreelancersCourses = () => {
     );
     setFilteredCourses(updatedCourses);
     setSearchQuery(""); // Reset search when tab changes
+  };
+
+  const handleLanguageChange = (value) => {
+    setSelectedLanguage(value);
+    const updatedCourses = coursesData.filter(
+      (course) =>
+        (course.status === "active" || course.status === "inactive") &&
+        (value === "All" || course.language === value)
+    );
+    setFilteredCourses(updatedCourses);
   };
 
   const handleSearch = (e) => {
@@ -272,12 +303,23 @@ const FreelancersCourses = () => {
           key="inactive"
         />
       </Tabs>
-      <div className="flex justify-center my-4">
+      <div className="flex justify-end gap-5 mb-6 items-center me-40">
+        <Select
+          value={selectedLanguage}
+          onChange={handleLanguageChange}
+          className="w-[200px] border rounded-md focus:outline-primary"
+          style={{ height: "42px" }}
+        >
+          <Option value="All">All Languages</Option>
+          <Option value="English">English</Option>
+          <Option value="Spanish">Spanish</Option>
+          <Option value="Hibru">Hibru</Option>
+        </Select>
         <input
           type="text"
           value={searchQuery}
           onChange={handleSearch}
-          placeholder="Search by course name or teacher name"
+          placeholder="Search"
           className="w-[400px] p-2 border rounded-md focus:outline-primary"
         />
       </div>

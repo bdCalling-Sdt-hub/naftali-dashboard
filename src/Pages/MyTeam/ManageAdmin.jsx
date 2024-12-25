@@ -10,6 +10,7 @@ import {
   Switch,
 } from "antd";
 import { MdDelete } from "react-icons/md";
+import { IoMdAdd } from "react-icons/io";
 
 const { Option } = Select;
 
@@ -129,11 +130,11 @@ const ManageAdmin = () => {
       <h2 className="text-xl font-bold mb-4">Manage Admins</h2>
       {/* Add Admin Button */}
       <Button
-        className="bg-primary text-white"
+        className="bg-primary py-5 text-white"
         onClick={() => setIsModalVisible(true)}
         style={{ marginBottom: 16, float: "right" }}
       >
-        Add Admin
+        <IoMdAdd size={20} /> Add Admin
       </Button>
 
       <Table columns={columns} dataSource={data} />

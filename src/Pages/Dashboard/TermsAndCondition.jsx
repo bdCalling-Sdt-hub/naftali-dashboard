@@ -11,7 +11,7 @@ import logo from "../../assets/logo.png";
 const TermsAndCondition = () => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
-  const [selectedTab, setSelectedTab] = useState("USER");
+  const [selectedTab, setSelectedTab] = useState("STUDENTS");
   const isLoading = false;
 
   useEffect(() => {
@@ -59,39 +59,30 @@ const TermsAndCondition = () => {
   };
 
   const tabContent = {
-    USER: termsAndConditionData,
-    VENDOR: termsAndConditionData,
-    CUSTOMER: termsAndConditionData,
+    Students: termsAndConditionData,
+    Teachers: termsAndConditionData,
   };
 
   return (
     <div>
       <Title className="mb-4">Terms and Conditions</Title>
 
-      <div className="flex justify-center gap-4 mb-4">
+      <div className="flex gap-4 mb-4">
         <button
           className={`px-4 rounded-2xl py-2 ${
-            selectedTab === "USER" ? "bg-primary text-white" : "bg-gray-200"
+            selectedTab === "STUDENTS" ? "bg-primary text-white" : "bg-gray-200"
           }`}
-          onClick={() => setSelectedTab("USER")}
+          onClick={() => setSelectedTab("STUDENTS")}
         >
-          Users
+          Students
         </button>
         <button
           className={`px-4 rounded-2xl py-2 ${
-            selectedTab === "VENDOR" ? "bg-primary text-white" : "bg-gray-200"
+            selectedTab === "TEACHERS" ? "bg-primary text-white" : "bg-gray-200"
           }`}
-          onClick={() => setSelectedTab("VENDOR")}
+          onClick={() => setSelectedTab("TEACHERS")}
         >
-          Vendors
-        </button>
-        <button
-          className={`px-4 rounded-2xl py-2 ${
-            selectedTab === "CUSTOMER" ? "bg-primary text-white" : "bg-gray-200"
-          }`}
-          onClick={() => setSelectedTab("CUSTOMER")}
-        >
-          Customers
+          Teachers
         </button>
       </div>
 

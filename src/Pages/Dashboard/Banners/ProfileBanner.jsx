@@ -6,6 +6,7 @@ import banner1 from "../../../assets/Rectangle 5322.png";
 import banner2 from "../../../assets/Rectangle 5323.png";
 import banner3 from "../../../assets/Rectangle 5325.png";
 import banner4 from "../../../assets/Rectangle 5326.png";
+import { IoMdAdd } from "react-icons/io";
 
 const initialSliders = [
   {
@@ -135,9 +136,15 @@ const ProfileBanner = () => {
 
   return (
     <div className="p-5 w-[80%]">
-      <Button onClick={showAddModal} className="mb-4 text-white bg-primary">
-        Add Slider
-      </Button>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-semibold">Profile Banner</h1>
+        <Button
+          onClick={showAddModal}
+          className="mb-4 py-5 text-white bg-primary"
+        >
+          <IoMdAdd size={20} /> Add Banner
+        </Button>
+      </div>
       <Table
         columns={columns}
         dataSource={sliders}

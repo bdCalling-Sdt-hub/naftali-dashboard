@@ -344,19 +344,21 @@ const ManageCourses = () => {
           <Tabs.TabPane tab="Offline" key="offline" />
           <Tabs.TabPane tab="Freelancer" key="freelancer" />
         </Tabs>
-        <Input
-          placeholder="Search by course title"
-          value={searchQuery}
-          onChange={handleSearch}
-          className="w-64"
-        />
-        <Button
-          className="bg-primary text-white"
-          icon={<PlusOutlined />}
-          onClick={() => setIsModalVisible(true)}
-        >
-          Add Course
-        </Button>
+        <div className="space-x-7">
+          <Input
+            placeholder="Search by course title"
+            value={searchQuery}
+            onChange={handleSearch}
+            className="w-64 py-2"
+          />
+          <Button
+            className="bg-primary py-5 text-white"
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalVisible(true)}
+          >
+            Add Course
+          </Button>
+        </div>
       </div>
       <Table
         dataSource={filteredCourses.map((course) => ({

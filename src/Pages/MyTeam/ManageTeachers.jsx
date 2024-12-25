@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Table, Modal, Button, Input, Space, message, Switch } from "antd";
+import { IoMdAdd } from "react-icons/io";
 
 const ManageTeachers = () => {
   const [data, setData] = useState([
@@ -116,25 +117,26 @@ const ManageTeachers = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-xl font-bold mb-4">Manage Teachers</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-bold mb-4">Manage Teachers</h2>
+        <div className="space-x-7">
+          <Input
+            placeholder="Search by course title"
+            value={searchText}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="w-64 py-2"
+          />
 
-      {/* Search Field */}
-      <Input.Search
-        placeholder="Search teachers"
-        value={searchText}
-        onChange={(e) => handleSearch(e.target.value)}
-        style={{ marginBottom: 16, width: "50%" }}
-      />
-
-      {/* Add Teacher Button */}
-      <Button
-        className="bg-primary text-white"
-        onClick={() => setIsModalVisible(true)}
-        style={{ marginBottom: 16, float: "right" }}
-      >
-        Create Teacher
-      </Button>
-
+          {/* Add Teacher Button */}
+          <Button
+            className="bg-primary py-5 text-white"
+            onClick={() => setIsModalVisible(true)}
+            style={{ marginBottom: 16, float: "right" }}
+          >
+            <IoMdAdd size={20} /> Create Teacher
+          </Button>
+        </div>
+      </div>
       <Table columns={columns} dataSource={filteredData} />
 
       {/* Add Teacher Modal */}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button, Table, Switch, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import moment from "moment/moment";
+import { IoMdAdd } from "react-icons/io";
 
 const initialSliders = [
   {
@@ -127,9 +128,15 @@ const HomeSlider = () => {
 
   return (
     <div className="p-5 w-[80%]">
-      <Button onClick={showAddModal} className="mb-4 text-white bg-primary">
-        Add Slider
-      </Button>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-semibold">Home Slider</h1>
+        <Button
+          onClick={showAddModal}
+          className="mb-4 py-5 text-white bg-primary"
+        >
+          <IoMdAdd size={20} /> Add Slider
+        </Button>
+      </div>
       <Table
         columns={columns}
         dataSource={sliders}

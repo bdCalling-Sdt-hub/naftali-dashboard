@@ -48,7 +48,8 @@ const Faq = () => {
 
   return (
     <div className="">
-      <div className=" mb-4 flex justify-between items-center w-full">
+      <div className=" mb-4 my-10 flex justify-between items-center w-full">
+        <h1 className="text-2xl font-semibold">Frequently Asked Questions</h1>
         <button
           onClick={() => setOpenAddModel(true)}
           className="flex items-center gap-1 px-4 py-2 text-white bg-primary rounded hover:bg-secondary hover:text-black transition-colors"

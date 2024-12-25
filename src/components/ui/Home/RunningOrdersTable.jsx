@@ -96,7 +96,9 @@ const TopCoursesTable = () => {
       <div className="flex items-center justify-between">
         <h1 className="font-bold mb-2">Top Courses</h1>
         <Link to={"/manage-courses"}>
-          <Button className="bg-secondary border-secondary">View All</Button>
+          <Button className="bg-secondary mb-4 border-secondary">
+            View All
+          </Button>
         </Link>
       </div>
       <Table columns={columns} pagination={false} dataSource={data} />
