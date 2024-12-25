@@ -169,6 +169,12 @@ const ProfileBanner = () => {
         onOk={handleAddSlider}
         onCancel={handleAddModalCancel}
         confirmLoading={loading}
+        okButtonProps={{
+          style: {
+            backgroundColor: "#b58700",
+            borderColor: "#b58700",
+          },
+        }}
       >
         <div>
           <Upload

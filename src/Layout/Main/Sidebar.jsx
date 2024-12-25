@@ -164,7 +164,7 @@ const Sidebar = () => {
       label: "My Team",
       children: [
         {
-          key: "/manageAdmin",
+          key: "/manage-admin",
           icon: <MdAdminPanelSettings size={24} />,
           label: (
             <Link to="/manage-admin" className="text-white hover:text-white">
@@ -173,7 +173,7 @@ const Sidebar = () => {
           ),
         },
         {
-          key: "/manageTeachers",
+          key: "/manage-teachers",
           icon: <MdManageAccounts size={24} />,
           label: (
             <Link to="/manage-teachers" className="text-white hover:text-white">
@@ -188,11 +188,7 @@ const Sidebar = () => {
       icon: <FaBorderStyle size={24} />,
       label: <Link to="/seminars">Seminars</Link>,
     },
-    // {
-    //   key: "/cancellation",
-    //   icon: <MdCancelPresentation size={24} />,
-    //   label: <Link to="/cancellation">Cancellation</Link>,
-    // },
+
     {
       key: "/our-transactions",
       icon: <FaMoneyBillTransfer size={24} />,
@@ -223,14 +219,7 @@ const Sidebar = () => {
             </Link>
           ),
         },
-        {
-          key: "/offer-list",
-          label: (
-            <Link to="/offer-list" className="text-white hover:text-white">
-              Offer List
-            </Link>
-          ),
-        },
+
         {
           key: "/about-us",
           label: (

@@ -185,7 +185,7 @@ const Teachers = () => {
       <div className="flex justify-between items-center my-5">
         <h1 className="text-2xl font-semibold">Teachers</h1>
         <Button
-          type="primary"
+          className="bg-primary text-white"
           icon={<PlusOutlined />}
           onClick={() => setIsModalVisible(true)}
         >

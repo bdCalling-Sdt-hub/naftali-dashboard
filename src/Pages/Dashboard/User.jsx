@@ -20,6 +20,41 @@ const User = () => {
     fine: 10,
   };
 
+  const runningCourses = [
+    {
+      id: "1",
+      courseName: "Mathematics",
+      instructor: "Dr. John Smith",
+      duration: "3 months",
+      startDate: "2023-01-15",
+      status: "Active",
+    },
+    {
+      id: "2",
+      courseName: "Physics",
+      instructor: "Dr. Jane Doe",
+      duration: "4 months",
+      startDate: "2023-02-10",
+      status: "Active",
+    },
+    {
+      id: "3",
+      courseName: "Chemistry",
+      instructor: "Prof. Alan Green",
+      duration: "6 months",
+      startDate: "2023-03-20",
+      status: "Completed",
+    },
+    {
+      id: "4",
+      courseName: "Biology",
+      instructor: "Dr. Emily White",
+      duration: "5 months",
+      startDate: "2023-04-01",
+      status: "Active",
+    },
+  ];
+
   const imgUrl =
     student?.profileImg ||
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmtj40PvvTQ1g64pgKZ2oKEk-tqT9rA4CXSA&s";
@@ -90,9 +125,7 @@ const User = () => {
       </div>
 
       <div>
-        <RunningOrderTable
-          filterProps={student?.name} // Filter based on the student's name if needed
-        />
+        <RunningOrderTable data={runningCourses} />
       </div>
     </div>
   );

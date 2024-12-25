@@ -25,7 +25,6 @@ import AddBanners from "../components/ui/Banners/AddBanners";
 import OurTransactions from "../Pages/Dashboard/OurTransactions";
 import Faq from "../components/ui/Settings/Faq";
 import AboutUs from "../components/ui/Settings/AboutUs";
-import OfferList from "../components/ui/Settings/OfferList";
 import Orders from "../Pages/Dashboard/Orders";
 
 import Vendor from "../Pages/Dashboard/Vendor";
@@ -148,10 +147,7 @@ const router = createBrowserRouter([
         path: "about-us",
         element: <AboutUs />,
       },
-      {
-        path: "offer-list",
-        element: <OfferList />,
-      },
+
       {
         path: "orders",
         element: <Orders />,

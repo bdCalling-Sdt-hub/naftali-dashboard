@@ -16,7 +16,7 @@ const TeacherDetails = () => {
     status: "Active",
     totalClasses: 150,
     totalStudents: 300,
-    profileImg: "https://randomuser.me/api/portraits/women/1.jpg",
+    profileImg: "https://randomuser.me/api/portraits/men/27.jpg",
     reviews: [
       {
         id: "r1",
@@ -103,7 +103,7 @@ const TeacherDetails = () => {
   return (
     <div className=" mx-auto p-4">
       <div className="mb-4">
-        <div className="flex gap-5 items-center">
+        <div className="flex gap-10 ms-20 items-center">
           <div className="flex flex-col items-center justify-center gap-5">
             <div className=" border-4 p-1 rounded-full">
               <img

@@ -2,7 +2,7 @@ import { Card, Form, Input, Switch, Button, message } from "antd";
 import { useState } from "react";
 import whiteBg from "../../../assets/whiteBG.png";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
-import { useAddBannerMutation } from "../../../redux/apiSlices/banenrSlice";
+import logo from "../../../assets/logo.png";
 import toast from "react-hot-toast";
 import { Navigate, useNavigate } from "react-router-dom";
 
@@ -18,7 +18,7 @@ const AddBanners = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <img src={rentMeLogo} alt="" />
+        <img src={logo} alt="" />
       </div>
     );
   }
@@ -134,7 +134,7 @@ const AddBanners = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" className="bg-[#8b0000]" htmlType="submit">
+          <Button type="primary" className="bg-primary" htmlType="submit">
             Add Banner
           </Button>
         </Form.Item>

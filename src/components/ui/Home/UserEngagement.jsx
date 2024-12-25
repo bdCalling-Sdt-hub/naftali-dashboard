@@ -18,18 +18,18 @@ const UserEngagement = () => {
 
   // Dummy data for User Engagement
   const dummyChartData = [
-    { month: "January", orderCount: 120, userCount: 200 },
-    { month: "February", orderCount: 150, userCount: 220 },
-    { month: "March", orderCount: 180, userCount: 250 },
-    { month: "April", orderCount: 200, userCount: 300 },
-    { month: "May", orderCount: 230, userCount: 320 },
-    { month: "June", orderCount: 190, userCount: 280 },
-    { month: "July", orderCount: 250, userCount: 340 },
-    { month: "August", orderCount: 270, userCount: 360 },
-    { month: "September", orderCount: 210, userCount: 310 },
-    { month: "October", orderCount: 300, userCount: 400 },
-    { month: "November", orderCount: 260, userCount: 350 },
-    { month: "December", orderCount: 310, userCount: 420 },
+    { month: "January", Students: 120, Teachers: 200 },
+    { month: "February", Students: 150, Teachers: 220 },
+    { month: "March", Students: 180, Teachers: 250 },
+    { month: "April", Students: 200, Teachers: 300 },
+    { month: "May", Students: 230, Teachers: 320 },
+    { month: "June", Students: 190, Teachers: 280 },
+    { month: "July", Students: 250, Teachers: 340 },
+    { month: "August", Students: 270, Teachers: 360 },
+    { month: "September", Students: 210, Teachers: 310 },
+    { month: "October", Students: 300, Teachers: 400 },
+    { month: "November", Students: 260, Teachers: 350 },
+    { month: "December", Students: 310, Teachers: 420 },
   ];
 
   const chartData = dummyChartData;
@@ -76,11 +76,11 @@ const UserEngagement = () => {
           <Legend verticalAlign="bottom" align="center" />
           <Line
             type="monotone"
-            dataKey="orderCount"
+            dataKey="Students"
             stroke="#b58700"
             activeDot={{ r: 8 }}
           />
-          <Line type="monotone" dataKey="userCount" stroke="#5c2579cc" />
+          <Line type="monotone" dataKey="Teachers" stroke="#5c2579cc" />
         </LineChart>
       </ResponsiveContainer>
     </div>
