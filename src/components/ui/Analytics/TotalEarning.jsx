@@ -8,29 +8,42 @@ import {
   Area,
   ResponsiveContainer,
 } from "recharts";
+import { useTotalEarningQuery } from "../../../redux/apiSlices/dashboardSlice";
 
 const TotalEarning = () => {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const { data: totalEarningData, isLoading } =
+    useTotalEarningQuery(selectedYear);
 
-  // Dummy data to simulate earnings data
-  const dummyChartData = [
-    { month: "January", revenue: 1200 },
-    { month: "February", revenue: 1500 },
-    { month: "March", revenue: 1800 },
-    { month: "April", revenue: 2100 },
-    { month: "May", revenue: 2500 },
-    { month: "June", revenue: 2300 },
-    { month: "July", revenue: 2700 },
-    { month: "August", revenue: 3000 },
-    { month: "September", revenue: 2800 },
-    { month: "October", revenue: 3100 },
-    { month: "November", revenue: 3500 },
-    { month: "December", revenue: 4000 },
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const data = totalEarningData?.data || [];
+  // console.log(data);
+
+  // Month names array
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
-  const chartData = dummyChartData;
+  // Map the data to include month names
+  const chartData = data.map((item) => ({
+    ...item,
+    month: monthNames[item.month - 1], // Map month number to name
+  }));
 
-  // Generate years from 10 years back to 1 year ahead
   const currentYear = new Date().getFullYear();
   const years = Array.from(
     { length: 12 },
@@ -60,8 +73,6 @@ const TotalEarning = () => {
 
       <ResponsiveContainer width="100%" height={200}>
         <AreaChart
-          width={500}
-          height={200}
           data={chartData}
           margin={{
             top: 10,
@@ -71,12 +82,12 @@ const TotalEarning = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" tickFormatter={(month) => month.slice(0, 3)} />
+          <XAxis dataKey="month" />
           <YAxis />
           <Tooltip />
           <Area
             type="monotone"
-            dataKey="revenue"
+            dataKey="totalEarnings"
             stroke="#b58700"
             fill="#f7e6b4"
           />

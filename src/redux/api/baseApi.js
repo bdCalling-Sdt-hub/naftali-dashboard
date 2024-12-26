@@ -1,58 +1,27 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import toast from "react-hot-toast";
-import Cookies from "js-cookie";
 
-const baseQueryWithReauth = async (args, api, extraOptions) => {
-  const baseQuery = fetchBaseQuery({
-    // baseUrl: "http://192.168.10.8:5001/api/v1",
-    prepareHeaders: (headers) => {
-      const token =
-        localStorage.getItem("authToken") ||
-        sessionStorage.getItem("authToken");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  });
+const baseQuery = fetchBaseQuery({
+  baseUrl: "http://192.168.10.15:5000/api/v1",
+  prepareHeaders: (headers) => {
+    const token =
+      localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+    return headers;
+  },
+});
 
-  const refreshToken = Cookies.get("refreshToken");
-
+const baseQueryWithErrorHandling = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  // console.log("API request result:", result);
-
   if (result.error) {
-    if (result.error.status === 500) {
-      const refreshResult = await baseQuery(
-        {
-          url: "/auth/refresh-token",
-          method: "POST",
-          body: { refreshToken: refreshToken },
-        },
-        api,
-        extraOptions
-      );
-
-      if (refreshResult?.data?.data) {
-        localStorage.removeItem("authToken");
-        localStorage.setItem(
-          "authToken",
-          refreshResult?.data?.data?.accessToken
-        );
-
-        result = await baseQuery(args, api, extraOptions);
-      } else {
-        console.error("Refresh token invalid or expired. Logging out...");
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("refreshToken");
-        sessionStorage.removeItem("authToken");
-        sessionStorage.removeItem("refreshToken");
-        toast("Access token has expired, Please login again.");
-        window.location.replace("/auth/login");
-      }
-    } else if (result.error.status === 400) {
+    if (result.error.status === 400) {
       console.error("Bad request error:", result.error);
+    } else if (result.error.status === 500) {
+      console.error("Server error:", result.error);
+      toast.error("Server error. Please try again later.");
     } else if (result.error && result.error.originalStatus === 200) {
       if (
         typeof result.error.data === "string" &&
@@ -70,7 +39,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const api = createApi({
   reducerPath: "api",
-  baseQuery: baseQueryWithReauth,
+  baseQuery: baseQueryWithErrorHandling,
   tagTypes: ["Banner", "AdminData"],
   endpoints: () => ({}),
 });

@@ -17,6 +17,8 @@ const Header = () => {
     );
   }
 
+  // console.log(userData?.data);
+
   return (
     <div className="flex items-center gap-5 justify-end">
       <Link to="/notification" className="h-fit mt-[10px]">
@@ -33,8 +35,8 @@ const Header = () => {
             height: 45,
           }}
           src={
-            userData?.data?.profileImg
-              ? `${import.meta.env.VITE_BASE_URL}${userData?.data?.profileImg}`
+            userData?.data?.profile
+              ? `${import.meta.env.VITE_BASE_URL}${userData?.data?.profile}`
               : logo
           }
           alt="person-male--v2"

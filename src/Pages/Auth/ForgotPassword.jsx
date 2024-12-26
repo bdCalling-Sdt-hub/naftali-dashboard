@@ -5,7 +5,7 @@ import { useForgotPasswordMutation } from "../../redux/apiSlices/authSlice"; // 
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const [forgotPassword] = useForgotPasswordMutation(); // RTK Query hook
+  const [forgotPassword] = useForgotPasswordMutation();
 
   const onFinish = async (values) => {
     try {

@@ -1,75 +1,27 @@
 import React, { useState } from "react";
-import { Table, Button, Space, Avatar } from "antd";
+import { Table, Button, Space, Avatar, Tooltip } from "antd";
 import { Link } from "react-router-dom";
 import randomImg from "../../assets/randomProfile2.jpg";
+import { useStudentsQuery } from "../../redux/apiSlices/userSlice";
+import logo from "../../assets/logo.png";
+import moment from "moment/moment";
 
 const Students = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [pageSize, setPageSize] = useState(10);
 
-  // Dummy data for students
-  const students = [
-    {
-      id: "1",
-      name: "John Doe",
-      email: "john.doe@example.com",
-      phoneNumber: "+123456789",
-      address: "123 Main St, Springfield",
-      enrolledCourse: "Mathematics",
-      enrollmentDate: "2023-01-15",
-      status: "Active",
-      profileImg: "https://randomuser.me/api/portraits/men/1.jpg",
-      fine: 10,
-    },
-    {
-      id: "2",
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      phoneNumber: "+987654321",
-      address: "456 Elm St, Springfield",
-      enrolledCourse: "Physics",
-      enrollmentDate: "2023-03-10",
-      status: "Inactive",
-      profileImg: "https://randomuser.me/api/portraits/women/2.jpg",
-      fine: 0,
-    },
-    {
-      id: "3",
-      name: "Sam Wilson",
-      email: "sam.wilson@example.com",
-      phoneNumber: "+192837465",
-      address: "789 Oak St, Springfield",
-      enrolledCourse: "Chemistry",
-      enrollmentDate: "2023-05-20",
-      status: "Active",
-      profileImg: "https://randomuser.me/api/portraits/men/3.jpg",
-      fine: 5,
-    },
-    {
-      id: "4",
-      name: "Emily Johnson",
-      email: "emily.johnson@example.com",
-      phoneNumber: "+456789123",
-      address: "321 Pine St, Springfield",
-      enrolledCourse: "Biology",
-      enrollmentDate: "2023-06-18",
-      status: "Inactive",
-      profileImg: "https://randomuser.me/api/portraits/women/4.jpg",
-      fine: 15,
-    },
-    {
-      id: "5",
-      name: "Michael Brown",
-      email: "michael.brown@example.com",
-      phoneNumber: "+789456123",
-      address: "654 Maple St, Springfield",
-      enrolledCourse: "English",
-      enrollmentDate: "2023-04-25",
-      status: "Active",
-      profileImg: "https://randomuser.me/api/portraits/men/5.jpg",
-      fine: 0,
-    },
-  ];
+  const { data: studentsData, isLoading } = useStudentsQuery();
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={logo} alt="" />
+      </div>
+    );
+  }
+
+  const data = studentsData?.data;
+  console.log(data);
 
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
@@ -79,8 +31,11 @@ const Students = () => {
   const columns = [
     {
       title: "Id",
-      dataIndex: "id",
+      dataIndex: "_id",
       key: "id",
+      render: (record) => {
+        return <Tooltip title={record}>{record.slice(0, 5)}...</Tooltip>;
+      },
     },
     {
       title: "Name",
@@ -88,11 +43,17 @@ const Students = () => {
       key: "name",
       render: (text, record) => {
         const name = record.name || "Unknown";
-        const imgUrl = record.profileImg || randomImg;
 
         return (
           <Space>
-            <Avatar src={imgUrl} alt={name} size="large" />
+            <Avatar
+              src={
+                `${import.meta.env.VITE_BASE_URL}${record?.profile}` ||
+                randomImg
+              }
+              alt={name}
+              size="large"
+            />
             <span>{name}</span>
           </Space>
         );
@@ -102,26 +63,41 @@ const Students = () => {
       title: "Email",
       dataIndex: "email",
       key: "email",
+      render: (record) => {
+        return <p>{record || "N/A"}</p>;
+      },
     },
     {
       title: "Phone Number",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      dataIndex: "phone",
+      key: "phone",
+      render: (record) => {
+        return <p>{record || "N/A"}</p>;
+      },
     },
     {
       title: "Address",
-      dataIndex: "address",
-      key: "address",
+      dataIndex: "location",
+      key: "location",
+      render: (text) => {
+        return <p>{text || "N/A"}</p>;
+      },
     },
     {
-      title: "Course",
-      dataIndex: "enrolledCourse",
-      key: "enrolledCourse",
+      title: "Education",
+      dataIndex: "education",
+      key: "education",
+      render: (text) => {
+        return <p>{text || "N/A"}</p>;
+      },
     },
     {
-      title: "Enrollment Date",
-      dataIndex: "enrollmentDate",
-      key: "enrollmentDate",
+      title: "Student Since",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (record) => {
+        return <p>{moment(record).format("L")}</p>;
+      },
     },
     {
       title: "Status",
@@ -129,7 +105,7 @@ const Students = () => {
       key: "status",
       render: (status) => {
         return (
-          <span style={{ color: status === "Active" ? "green" : "red" }}>
+          <span style={{ color: status === "active" ? "green" : "red" }}>
             {status}
           </span>
         );
@@ -142,7 +118,7 @@ const Students = () => {
       align: "center",
       render: (text, record) => (
         <Space>
-          <Link to={`/student/profile/${record.id}`}>
+          <Link to={`/student/profile/${record._id}`}>
             <Button className="bg-[#FFF4E3] text-[#F3B806] border-none">
               Details
             </Button>
@@ -158,12 +134,17 @@ const Students = () => {
   return (
     <>
       <h1 className="text-2xl font-semibold my-5">Students</h1>
+      <img
+        className="border-4 h-10 w-10"
+        src={`${import.meta.env.VITE_BASE_URL}${data[0]?.profile}`}
+        alt=""
+      />
       <Table
         columns={columns}
-        dataSource={students}
+        dataSource={data}
         pagination={{ pageSize, onChange: (page) => setPageSize(page) }}
         scroll={{ x: 1000 }}
-        rowKey={(record) => record.id}
+        rowKey={(record) => record._id}
       />
     </>
   );

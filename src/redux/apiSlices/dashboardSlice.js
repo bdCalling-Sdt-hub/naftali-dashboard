@@ -10,6 +10,22 @@ const dashboardSlice = api.injectEndpoints({
         };
       },
     }),
+    totalEarning: builder.query({
+      query: (year) => {
+        return {
+          method: "GET",
+          url: `/admin/earnings?year=${year}`,
+        };
+      },
+    }),
+    dashboardStates: builder.query({
+      query: () => {
+        return {
+          method: "GET",
+          url: "/admin/status",
+        };
+      },
+    }),
     overAllState: builder.query({
       query: ({ range }) => {
         return {
@@ -41,6 +57,8 @@ const dashboardSlice = api.injectEndpoints({
 
 export const {
   useGeneralStatsQuery,
+  useDashboardStatesQuery,
+  useTotalEarningQuery,
   useOverAllStateQuery,
   useBestServicesQuery,
   useVendorsConversionDataQuery,

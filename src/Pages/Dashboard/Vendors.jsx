@@ -1,113 +1,42 @@
 import React, { useState } from "react";
-import { Table, Button, Space, Avatar, Modal, Form, Input, Upload } from "antd";
+import {
+  Table,
+  Button,
+  Space,
+  Avatar,
+  Modal,
+  Form,
+  Input,
+  Upload,
+  Tooltip,
+} from "antd";
 import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import randomImg from "../../assets/randomProfile2.jpg";
+import { useTeachersQuery } from "../../redux/apiSlices/userSlice";
 
 const Teachers = () => {
   const [pageSize, setPageSize] = useState(10);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
 
-  // Dummy data for teachers
-  const teachers = [
-    {
-      id: "1",
-      name: "Alice Johnson",
-      email: "alice.johnson@example.com",
-      phoneNumber: "+123456789",
-      address: "45 Willow St, Springfield",
-      subjects: ["Math", "Physics"],
-      profileImg: "https://randomuser.me/api/portraits/women/20.jpg",
-      status: "Active",
-    },
-    {
-      id: "2",
-      name: "Bob Smith",
-      email: "bob.smith@example.com",
-      phoneNumber: "+987654321",
-      address: "67 Pine St, Springfield",
-      subjects: ["English", "History"],
-      profileImg: "https://randomuser.me/api/portraits/men/21.jpg",
-      status: "On Leave",
-    },
-    {
-      id: "3",
-      name: "Carla Evans",
-      email: "carla.evans@example.com",
-      phoneNumber: "+112233445",
-      address: "23 Elm St, Springfield",
-      subjects: ["Biology", "Chemistry"],
-      profileImg: "https://randomuser.me/api/portraits/women/22.jpg",
-      status: "Active",
-    },
-    {
-      id: "4",
-      name: "David Brown",
-      email: "david.brown@example.com",
-      phoneNumber: "+998877665",
-      address: "89 Oak St, Springfield",
-      subjects: ["Computer Science", "Math"],
-      profileImg: "https://randomuser.me/api/portraits/men/23.jpg",
-      status: "Retired",
-    },
-    {
-      id: "5",
-      name: "Ella Williams",
-      email: "ella.williams@example.com",
-      phoneNumber: "+554433221",
-      address: "12 Cedar St, Springfield",
-      subjects: ["Art", "Music"],
-      profileImg: "https://randomuser.me/api/portraits/women/24.jpg",
-      status: "Active",
-    },
-    {
-      id: "6",
-      name: "Frank Harris",
-      email: "frank.harris@example.com",
-      phoneNumber: "+667788990",
-      address: "34 Birch St, Springfield",
-      subjects: ["Economics", "Political Science"],
-      profileImg: "https://randomuser.me/api/portraits/men/25.jpg",
-      status: "On Leave",
-    },
-    {
-      id: "7",
-      name: "Grace Turner",
-      email: "grace.turner@example.com",
-      phoneNumber: "+112358132",
-      address: "78 Aspen St, Springfield",
-      subjects: ["Physical Education", "Health"],
-      profileImg: "https://randomuser.me/api/portraits/women/26.jpg",
-      status: "Active",
-    },
-    {
-      id: "8",
-      name: "Henry Moore",
-      email: "henry.moore@example.com",
-      phoneNumber: "+334455667",
-      address: "56 Maple St, Springfield",
-      subjects: ["Philosophy", "Sociology"],
-      profileImg: "https://randomuser.me/api/portraits/men/27.jpg",
-      status: "Retired",
-    },
-    {
-      id: "9",
-      name: "Isla Bennett",
-      email: "isla.bennett@example.com",
-      phoneNumber: "+445566778",
-      address: "90 Redwood St, Springfield",
-      subjects: ["French", "Spanish"],
-      profileImg: "https://randomuser.me/api/portraits/women/28.jpg",
-      status: "Active",
-    },
-  ];
+  const { data: teachersData, isLoading } = useTeachersQuery();
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  const data = teachersData?.data;
+  console.log(data);
 
   const columns = [
     {
       title: "Id",
-      dataIndex: "id",
+      dataIndex: "_id",
       key: "id",
+      render: (record) => {
+        return <Tooltip title={record}>{record.slice(0, 5)}...</Tooltip>;
+      },
     },
     {
       title: "Name",
@@ -115,10 +44,17 @@ const Teachers = () => {
       key: "name",
       render: (text, record) => {
         const name = record.name || "Unknown";
-        const imgUrl = record.profileImg || randomImg;
+
         return (
           <Space>
-            <Avatar src={imgUrl} alt={name} size="large" />
+            <Avatar
+              src={
+                `${import.meta.env.VITE_BASE_URL}${record?.profile}` ||
+                randomImg
+              }
+              alt={name}
+              size="large"
+            />
             <span>{name}</span>
           </Space>
         );
@@ -131,19 +67,24 @@ const Teachers = () => {
     },
     {
       title: "Phone Number",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      dataIndex: "phone",
+      key: "phone",
     },
     {
       title: "Address",
-      dataIndex: "address",
-      key: "address",
+      dataIndex: "location",
+      key: "location",
+      render: (text) => {
+        return <p>{text || "N/A"}</p>;
+      },
     },
     {
-      title: "Subjects",
-      dataIndex: "subjects",
-      key: "subjects",
-      render: (subjects) => subjects.join(", "),
+      title: "Language",
+      dataIndex: "language",
+      key: "language",
+      render: (text) => {
+        return <p>{text || "N/A"}</p>;
+      },
     },
     {
       title: "Status",
@@ -163,7 +104,7 @@ const Teachers = () => {
       align: "center",
       render: (text, record) => (
         <Space>
-          <Link to={`/teacher/profile/${record.id}`}>
+          <Link to={`/teacher/profile/${record._id}`}>
             <Button className="bg-secondary text-black border-none">
               Details
             </Button>
@@ -195,10 +136,10 @@ const Teachers = () => {
 
       <Table
         columns={columns}
-        dataSource={teachers}
+        dataSource={data}
         pagination={{ pageSize, onChange: (page) => setPageSize(page) }}
         scroll={{ x: 1000 }}
-        rowKey={(record) => record.id}
+        rowKey={(record) => record._id}
       />
 
       <Modal

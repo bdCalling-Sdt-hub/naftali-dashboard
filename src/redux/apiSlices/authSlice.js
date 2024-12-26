@@ -6,7 +6,7 @@ const authSlice = api.injectEndpoints({
       query: (data) => {
         return {
           method: "POST",
-          url: "auth/verify-email",
+          url: "/auth/verify-email",
           body: data,
         };
       },
@@ -31,19 +31,19 @@ const authSlice = api.injectEndpoints({
       query: (data) => {
         return {
           method: "POST",
-          url: "auth/forget-password",
+          url: "/auth/forget-password",
           body: data,
         };
       },
     }),
     resetPassword: builder.mutation({
-      query: (data) => {
+      query: ({ data }) => {
         return {
           method: "POST",
           url: "/auth/reset-password",
           body: data,
           headers: {
-            Authorization: localStorage.getItem("Authorization"),
+            Authorization: `Bearer ${localStorage.getItem("Authorization")}`,
           },
         };
       },

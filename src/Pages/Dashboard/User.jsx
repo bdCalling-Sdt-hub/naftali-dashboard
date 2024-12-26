@@ -2,23 +2,20 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import RunningOrderTable from "../../components/ui/Analytics/RunningOrderTable";
+import { useStudentByIdQuery } from "../../redux/apiSlices/userSlice";
+import moment from "moment";
 
 const User = () => {
   const { id } = useParams();
 
-  // Student data
-  const student = {
-    id: "1",
-    name: "John Doe",
-    email: "john.doe@example.com",
-    phoneNumber: "+123456789",
-    address: "123 Main St, Springfield",
-    enrolledCourse: "Mathematics",
-    enrollmentDate: "2023-01-15",
-    status: "Active",
-    profileImg: "https://randomuser.me/api/portraits/men/1.jpg",
-    fine: 10,
-  };
+  const { data: studentData, isLoading } = useStudentByIdQuery(id);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const student = studentData?.data;
+  console.log(student);
 
   const runningCourses = [
     {
@@ -56,7 +53,7 @@ const User = () => {
   ];
 
   const imgUrl =
-    student?.profileImg ||
+    student?.profile ||
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmtj40PvvTQ1g64pgKZ2oKEk-tqT9rA4CXSA&s";
 
   return (
@@ -68,13 +65,13 @@ const User = () => {
             src={
               imgUrl?.startsWith("http")
                 ? imgUrl
-                : `${import.meta.env.VITE_BASE_URL}${imgUrl}`
+                : `${import.meta.env.VITE_BASE_URL}${student?.profile}`
             }
             alt="img"
           />
           <div>
             <h1 className="text-2xl font-bold">{student?.name}</h1>
-            <p className="text-sm text-gray-400">Student ID: {student.id}</p>
+            <p className="text-sm text-gray-400">Student ID: {student._id}</p>
           </div>
         </div>
 
@@ -95,7 +92,7 @@ const User = () => {
             <h1 className="font-semibold text-sm border-b-2 border-dashed">
               Phone
             </h1>
-            <p className="text-lg my-2">{student?.phoneNumber}</p>
+            <p className="text-lg my-2">{student?.phone}</p>
           </div>
           <div className="p-3 bg-white h-20 rounded-2xl shadow-sm">
             <h1 className="font-semibold text-sm border-b-2 border-dashed">
@@ -105,15 +102,17 @@ const User = () => {
           </div>
           <div className="p-3 bg-white h-20 rounded-2xl shadow-sm">
             <h1 className="font-semibold text-sm border-b-2 border-dashed">
-              Course
+              Education
             </h1>
-            <p className="text-lg my-2">{student?.enrolledCourse}</p>
+            <p className="text-lg my-2">{student?.education}</p>
           </div>
           <div className="p-3 bg-white h-20 rounded-2xl shadow-sm">
             <h1 className="font-semibold text-sm border-b-2 border-dashed">
-              Enrollment Date
+              Student Since
             </h1>
-            <p className="text-lg my-2">{student?.enrollmentDate}</p>
+            <p className="text-lg my-2">
+              {moment(student?.createdAt).format("L")}
+            </p>
           </div>
           <div className="p-3 bg-white h-20 rounded-2xl shadow-sm">
             <h1 className="font-semibold text-sm border-b-2 border-dashed">

@@ -1,8 +1,17 @@
 import React from "react";
 import { Avatar, Card, Table, Space, Button } from "antd";
 import randomImg from "../../assets/randomProfile2.jpg";
+import { useParams } from "react-router-dom";
+import { useTeacherByIdQuery } from "../../redux/apiSlices/userSlice";
 
 const TeacherDetails = () => {
+  const { id } = useParams();
+
+  const { data: teachers, isLoading } = useTeacherByIdQuery(id);
+
+  const teacherData = teachers?.data;
+  console.log(teacherData);
+
   const teacher = {
     id: "1",
     name: "Jane Doe",
