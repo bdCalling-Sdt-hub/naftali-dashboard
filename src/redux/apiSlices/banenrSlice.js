@@ -2,10 +2,10 @@ import { api } from "../api/baseApi";
 
 const bannerSlice = api.injectEndpoints({
   endpoints: (builder) => ({
-    allBanner: builder.query({
+    getProfileBanner: builder.query({
       query: () => {
         return {
-          url: `/others/banner`,
+          url: `/banners/profile`,
           method: "GET",
         };
       },
@@ -19,27 +19,27 @@ const bannerSlice = api.injectEndpoints({
         };
       },
     }),
-    addBanner: builder.mutation({
+    addProfileBanner: builder.mutation({
       query: (data) => {
         return {
           method: "POST",
-          url: "/others/add-banner",
+          url: "/banners/add",
           body: data,
         };
       },
       invalidatesTags: ["Banner"],
     }),
-    updateBanner: builder.mutation({
-      query: ({ data, id }) => {
-        return {
-          method: "PATCH",
-          url: `/others/update-banner/${id}`,
-          body: data,
-        };
-      },
-      invalidatesTags: ["Banner"],
-    }),
-    deleteBanner: builder.mutation({
+    // updateBanner: builder.mutation({
+    //   query: ({ data, id }) => {
+    //     return {
+    //       method: "PATCH",
+    //       url: `/others/update-banner/${id}`,
+    //       body: data,
+    //     };
+    //   },
+    //   invalidatesTags: ["Banner"],
+    // }),
+    deleteProfileBanner: builder.mutation({
       query: (id) => {
         return {
           method: "DELETE",
@@ -52,9 +52,9 @@ const bannerSlice = api.injectEndpoints({
 });
 
 export const {
-  useAllBannerQuery,
+  useGetProfileBannerQuery,
   useGetBannerByIdQuery,
-  useAddBannerMutation,
+  useAddProfileBannerMutation,
   useUpdateBannerMutation,
-  useDeleteBannerMutation,
+  useDeleteProfileBannerMutation,
 } = bannerSlice;

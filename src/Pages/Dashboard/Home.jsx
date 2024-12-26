@@ -20,10 +20,10 @@ const Home = () => {
     );
   }
 
-  const dashboardInfo = dashboardStates?.data;
   const topTeachers = dashboardStates?.data?.topTeachers;
   const topSoldCourses = dashboardStates?.data?.soldCourses;
-  // console.log(topSoldCourses);
+  const topCourses = dashboardStates?.data?.topCourses;
+  // console.log(topCourses);
 
   const totalCoursesSold =
     topSoldCourses?.freelancer + topSoldCourses?.platform;
@@ -32,11 +32,6 @@ const Home = () => {
     (topSoldCourses?.platform / totalCoursesSold) * 100;
   const freelancerPercentage =
     (topSoldCourses?.freelancer / totalCoursesSold) * 100;
-
-  const orderSummary = {
-    doneByProfessionals: 65,
-    doneByFreelancers: 35,
-  };
 
   if (isLoading) {
     return (
@@ -113,7 +108,7 @@ const Home = () => {
       <div className="w-full md:flex gap-6">
         <div className="md:w-5/12 my-3 ">
           {" "}
-          <RunningOrdersTable />
+          <RunningOrdersTable topCourses={topCourses} />
         </div>
         <div className="md:w-7/12 my-3 ">
           <UserEngagement />

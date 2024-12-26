@@ -17,7 +17,7 @@ const GeneralStateSection = () => {
   }
 
   const state = dashboardStates?.data;
-  console.log(state);
+  // console.log(state);
 
   return (
     <div className="grid md:grid-cols-5 gap-6 md:h-[120px]">

@@ -1,118 +1,93 @@
 import React, { useState } from "react";
-import { Modal, Button, Table, Switch, Upload, message } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Modal, Button, Table, message } from "antd";
 import moment from "moment/moment";
-import banner1 from "../../../assets/Rectangle 5322.png";
-import banner2 from "../../../assets/Rectangle 5323.png";
-import banner3 from "../../../assets/Rectangle 5325.png";
-import banner4 from "../../../assets/Rectangle 5326.png";
 import { IoMdAdd } from "react-icons/io";
-
-const initialSliders = [
-  {
-    id: 1,
-    imageUrl: banner1,
-
-    isActive: true,
-    createdAt: "2024-12-25 12:00:00",
-  },
-  {
-    id: 2,
-    imageUrl: banner2,
-    isActive: false,
-    createdAt: "2024-12-24 15:30:00",
-  },
-  {
-    id: 3,
-    imageUrl: banner3,
-    isActive: true,
-    createdAt: "2024-12-23 10:45:00",
-  },
-  {
-    id: 4,
-    imageUrl: banner4,
-    isActive: true,
-    createdAt: "2024-12-23 09:45:00",
-  },
-];
+import {
+  useAddProfileBannerMutation,
+  useDeleteProfileBannerMutation,
+  useGetProfileBannerQuery,
+} from "../../../redux/apiSlices/banenrSlice";
+import whiteBg from "../../../assets/whiteBG.png";
+import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 
 const ProfileBanner = () => {
-  const [sliders, setSliders] = useState(initialSliders);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
-  const [isViewerModalVisible, setIsViewerModalVisible] = useState(false);
-  const [newSlider, setNewSlider] = useState({
-    imageUrl: "",
-    isActive: true,
-    createdAt: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  // const [selectedImage, setSelectedImage] = useState(null);
+  // const [imageFile, setImageFile] = useState(null);
+  const [imgURL, setImgURL] = useState();
+  const [file, setFile] = useState(null);
+
+  const { data: bannerData, isLoading } = useGetProfileBannerQuery();
+  const [addProfileBanner] = useAddProfileBannerMutation();
+  const [deleteProfileBanner] = useDeleteProfileBannerMutation();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const showAddModal = () => setIsAddModalVisible(true);
-  const handleAddModalCancel = () => setIsAddModalVisible(false);
+  const handleAddModalCancel = () => {
+    setIsAddModalVisible(false);
+    setImageFile(null);
+  };
 
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
-    setIsViewerModalVisible(true);
+    setIsAddModalVisible(true);
   };
-  const handleViewerModalCancel = () => setIsViewerModalVisible(false);
 
-  const handleImageUpload = (info) => {
-    if (info.file.status === "done") {
-      setNewSlider((prev) => ({ ...prev, imageUrl: info.file.response.url }));
-      message.success("Image uploaded successfully.");
-    } else if (info.file.status === "error") {
-      message.error("Image upload failed.");
+  const onChangeImage = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      const imgUrl = URL.createObjectURL(selectedFile);
+      setImgURL(imgUrl);
+      setFile(selectedFile);
     }
   };
 
-  const handleAddSlider = () => {
-    setLoading(true);
-    const newId = sliders.length + 1;
-    const addedSlider = {
-      ...newSlider,
-      id: newId,
-      createdAt: new Date().toLocaleString("en-US"),
-    };
-    setSliders((prevSliders) => [...prevSliders, addedSlider]);
-    setLoading(false);
-    setIsAddModalVisible(false);
+  const handleAddSlider = async () => {
+    const formData = new FormData();
+
+    formData.append("type", "PROFILE");
+    if (file) {
+      formData.append("banner", file);
+    } else {
+      message.error("Please upload an image.");
+      return;
+    }
+
+    try {
+      await addProfileBanner(formData).unwrap();
+      message.success("Banner added successfully.");
+      setIsAddModalVisible(false);
+      setImageFile(null);
+    } catch (error) {
+      message.error("Failed to add banner.");
+    }
   };
 
-  const handleStatusToggle = (id) => {
-    setSliders((prevSliders) =>
-      prevSliders.map((slider) =>
-        slider.id === id ? { ...slider, isActive: !slider.isActive } : slider
-      )
-    );
-  };
-
-  const handleDelete = (id) => {
-    setSliders((prevSliders) =>
-      prevSliders.filter((slider) => slider.id !== id)
-    );
+  const handleDelete = async (id) => {
+    try {
+      await deleteProfileBanner(id).unwrap();
+      message.success("Banner deleted successfully.");
+    } catch (error) {
+      message.error("Failed to delete banner.");
+    }
   };
 
   const columns = [
     {
       title: "Image",
-      dataIndex: "imageUrl",
-      key: "imageUrl",
+      dataIndex: "URL",
+      key: "URL",
       render: (text) => (
         <img
-          src={text}
+          src={`${import.meta.env.VITE_BASE_URL}${text}` || "No Image"}
           alt="slider"
           style={{ width: 100, height: 60, cursor: "pointer" }}
+          className="object-cover"
           onClick={() => handleImageClick(text)}
         />
-      ),
-    },
-    {
-      title: "Status",
-      dataIndex: "isActive",
-      key: "isActive",
-      render: (text, record) => (
-        <Switch checked={text} onChange={() => handleStatusToggle(record.id)} />
       ),
     },
     {
@@ -127,7 +102,7 @@ const ProfileBanner = () => {
       title: "Actions",
       key: "actions",
       render: (text, record) => (
-        <Button danger onClick={() => handleDelete(record.id)}>
+        <Button danger onClick={() => handleDelete(record._id)}>
           Delete
         </Button>
       ),
@@ -145,37 +120,22 @@ const ProfileBanner = () => {
           <IoMdAdd size={20} /> Add Banner
         </Button>
       </div>
-      <Table
-        columns={columns}
-        dataSource={sliders}
-        rowKey="id"
-        pagination={false}
-      />
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <Table
+          columns={columns}
+          dataSource={bannerData?.data || []}
+          rowKey="_id"
+          pagination={false}
+        />
+      )}
 
       <Modal
-        open={isViewerModalVisible}
-        onCancel={handleViewerModalCancel}
-        footer={null}
-        width="80%"
-        destroyOnClose
-      >
-        {selectedImage ? (
-          <img
-            src={selectedImage}
-            alt="Enlarged"
-            style={{ width: "100%", height: "700px" }}
-          />
-        ) : (
-          <p>Cannot find any images!</p>
-        )}
-      </Modal>
-
-      <Modal
-        title="Add New Slider"
-        visible={isAddModalVisible}
+        title="Add New Banner"
+        open={isAddModalVisible}
         onOk={handleAddSlider}
         onCancel={handleAddModalCancel}
-        confirmLoading={loading}
         okButtonProps={{
           style: {
             backgroundColor: "#b58700",
@@ -183,24 +143,30 @@ const ProfileBanner = () => {
           },
         }}
       >
-        <div>
-          <Upload
-            name="sliderImage"
-            action="/upload"
-            showUploadList={false}
-            onChange={handleImageUpload}
-          >
-            <Button icon={<UploadOutlined />}>Click to Upload</Button>
-          </Upload>
-        </div>
-        <div className="mt-4">
-          <label className="block">Status:</label>
-          <Switch
-            checked={newSlider.isActive}
-            onChange={(checked) =>
-              setNewSlider((prev) => ({ ...prev, isActive: checked }))
-            }
+        <div className="flex flex-col items-center mb-4">
+          <input
+            onChange={onChangeImage}
+            type="file"
+            id="img"
+            style={{ display: "none" }}
           />
+          <label
+            htmlFor="img"
+            className="relative w-full h-80 cursor-pointer border border-gray-300 bg-white bg-cover bg-center shadow-sm hover:shadow-lg transition-shadow duration-300"
+            style={{
+              backgroundImage: `url(${imgURL ? imgURL : whiteBg})`,
+            }}
+          >
+            {!imgURL && (
+              <div className="absolute inset-0 flex items-center justify-center hover:bg-gray-200 transition-colors">
+                <MdOutlineAddPhotoAlternate
+                  size={60}
+                  className="text-gray-600"
+                />
+              </div>
+            )}
+          </label>
+          <p className="mt-2 text-sm text-gray-500">Click to upload image</p>
         </div>
       </Modal>
     </div>
