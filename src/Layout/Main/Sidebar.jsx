@@ -92,15 +92,15 @@ const Sidebar = () => {
       icon: <MdFeaturedPlayList size={24} />,
       label: "Banners",
       children: [
-        {
-          key: "/banners",
-          icon: <MdFeaturedPlayList size={24} />,
-          label: (
-            <Link to="/banners" className="text-white hover:text-white">
-              Home Banners
-            </Link>
-          ),
-        },
+        // {
+        //   key: "/banners",
+        //   icon: <MdFeaturedPlayList size={24} />,
+        //   label: (
+        //     <Link to="/banners" className="text-white hover:text-white">
+        //       Home Banners
+        //     </Link>
+        //   ),
+        // },
         {
           key: "/sliders",
           icon: <TfiLayoutSlider size={24} />,

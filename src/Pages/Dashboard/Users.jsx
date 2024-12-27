@@ -134,11 +134,7 @@ const Students = () => {
   return (
     <>
       <h1 className="text-2xl font-semibold my-5">Students</h1>
-      <img
-        className="border-4 h-10 w-10"
-        src={`${import.meta.env.VITE_BASE_URL}${data[0]?.profile}`}
-        alt=""
-      />
+
       <Table
         columns={columns}
         dataSource={data}

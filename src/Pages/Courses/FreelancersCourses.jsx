@@ -1,342 +1,139 @@
-import React, { useState } from "react";
-import moment from "moment";
-import { Button, Select, Tabs } from "antd";
+import React, { useState, useEffect } from "react";
+import { Tabs, Select } from "antd";
+import { useGetAllCoursesQuery } from "../../redux/apiSlices/courseSlice";
 import { SlCalender } from "react-icons/sl";
 import { IoTime } from "react-icons/io5";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
-import banner from "../../assets/Rectangle 5015 (1).png";
+import moment from "moment";
+const { Option } = Select;
 
-const coursesData = [
-  {
-    bannerImg: banner,
-    title: "Complete English Course",
-    teacherName: "Junayed Polok",
-    price: 100,
-    date: "01-09-2024",
-    time: { startTime: "14:00", endTime: "16:00" },
-    lectures: 10,
-    isFreelancer: false,
-    status: "active",
-    language: "English",
-  },
-  {
-    bannerImg: banner,
-    title: "Advanced Mathematics",
-    teacherName: "Sara Ahmed",
-    price: 120,
-    date: "05-09-2024",
-    time: { startTime: "10:00", endTime: "12:00" },
-    lectures: 15,
-    isFreelancer: true,
-    status: "inactive",
-    language: "Spanish",
-  },
-  {
-    bannerImg: banner,
-    title: "Basic Physics Concepts",
-    teacherName: "Rahul Das",
-    price: 90,
-    date: "10-09-2024",
-    time: { startTime: "09:00", endTime: "11:00" },
-    lectures: 12,
-    isFreelancer: false,
-    status: "active",
-    language: "Hibru",
-  },
-  {
-    bannerImg: banner,
-    title: "Introduction to Programming",
-    teacherName: "Emily Green",
-    price: 150,
-    date: "12-09-2024",
-    time: { startTime: "13:00", endTime: "15:00" },
-    lectures: 20,
-    isFreelancer: true,
-    status: "active",
-    language: "English",
-  },
-  {
-    bannerImg: banner,
-    title: "Graphic Design Basics",
-    teacherName: "Michael White",
-    price: 80,
-    date: "15-09-2024",
-    time: { startTime: "16:00", endTime: "18:00" },
-    lectures: 8,
-    isFreelancer: false,
-    status: "inactive",
-    language: "Spanish",
-  },
-  {
-    bannerImg: banner,
-    title: "Digital Marketing Essentials",
-    teacherName: "John Doe",
-    price: 200,
-    date: "18-09-2024",
-    time: { startTime: "11:00", endTime: "13:00" },
-    lectures: 25,
-    isFreelancer: true,
-    status: "active",
-    language: "Hibru",
-  },
-  {
-    bannerImg: banner,
-    title: "SEO Crash Course",
-    teacherName: "Alice Johnson",
-    price: 50,
-    date: "20-09-2024",
-    time: { startTime: "17:00", endTime: "19:00" },
-    lectures: 5,
-    isFreelancer: false,
-    status: "inactive",
-    language: "English",
-  },
-  {
-    bannerImg: banner,
-    title: "Intermediate Chemistry",
-    teacherName: "Nina Brown",
-    price: 110,
-    date: "22-09-2024",
-    time: { startTime: "12:00", endTime: "14:00" },
-    lectures: 18,
-    isFreelancer: true,
-    status: "active",
-    language: "Spanish",
-  },
-  {
-    bannerImg: banner,
-    title: "Web Development Bootcamp",
-    teacherName: "Liam Scott",
-    price: 250,
-    date: "25-09-2024",
-    time: { startTime: "09:00", endTime: "11:00" },
-    lectures: 30,
-    isFreelancer: false,
-    status: "active",
-    language: "Hibru",
-  },
-  {
-    bannerImg: banner,
-    title: "Photography Workshop",
-    teacherName: "Sophia King",
-    price: 70,
-    date: "27-09-2024",
-    time: { startTime: "14:00", endTime: "16:00" },
-    lectures: 6,
-    isFreelancer: true,
-    status: "inactive",
-    language: "English",
-  },
-  {
-    bannerImg: banner,
-    title: "Mobile App Development",
-    teacherName: "Oliver Reed",
-    price: 300,
-    date: "30-09-2024",
-    time: { startTime: "10:00", endTime: "12:00" },
-    lectures: 40,
-    isFreelancer: false,
-    status: "active",
-    language: "Spanish",
-  },
-  {
-    bannerImg: banner,
-    title: "Public Speaking Skills",
-    teacherName: "Mia Davis",
-    price: 60,
-    date: "02-10-2024",
-    time: { startTime: "15:00", endTime: "17:00" },
-    lectures: 7,
-    isFreelancer: true,
-    status: "active",
-    language: "Hibru",
-  },
-  {
-    bannerImg: banner,
-    title: "Beginner's Yoga",
-    teacherName: "James Hall",
-    price: 40,
-    date: "05-10-2024",
-    time: { startTime: "08:00", endTime: "09:00" },
-    lectures: 4,
-    isFreelancer: false,
-    status: "inactive",
-    language: "English",
-  },
-  {
-    bannerImg: banner,
-    title: "Machine Learning Basics",
-    teacherName: "Lily Carter",
-    price: 400,
-    date: "07-10-2024",
-    time: { startTime: "13:00", endTime: "15:00" },
-    lectures: 35,
-    isFreelancer: true,
-    status: "active",
-    language: "Spanish",
-  },
-  {
-    bannerImg: banner,
-    title: "Art of Negotiation",
-    teacherName: "Benjamin Lee",
-    price: 90,
-    date: "09-10-2024",
-    time: { startTime: "18:00", endTime: "20:00" },
-    lectures: 10,
-    isFreelancer: false,
-    status: "active",
-    language: "Hibru",
-  },
-  {
-    bannerImg: banner,
-    title: "Advanced Graphic Design",
-    teacherName: "Ava Wilson",
-    price: 150,
-    date: "11-10-2024",
-    time: { startTime: "09:00", endTime: "11:00" },
-    lectures: 15,
-    isFreelancer: true,
-    status: "inactive",
-    language: "English",
-  },
-  {
-    bannerImg: banner,
-    title: "Personal Finance Management",
-    teacherName: "Jack Walker",
-    price: 50,
-    date: "13-10-2024",
-    time: { startTime: "12:00", endTime: "14:00" },
-    lectures: 8,
-    isFreelancer: false,
-    status: "active",
-    language: "Spanish",
-  },
-  {
-    bannerImg: banner,
-    title: "Cooking Basics",
-    teacherName: "Emma Harris",
-    price: 30,
-    date: "15-10-2024",
-    time: { startTime: "16:00", endTime: "18:00" },
-    lectures: 5,
-    isFreelancer: true,
-    status: "inactive",
-    language: "Hibru",
-  },
-  {
-    bannerImg: banner,
-    title: "Creative Writing Workshop",
-    teacherName: "Lucas Martin",
-    price: 85,
-    date: "18-10-2024",
-    time: { startTime: "14:00", endTime: "16:00" },
-    lectures: 12,
-    isFreelancer: false,
-    status: "active",
-    language: "English",
-  },
-  {
-    bannerImg: banner,
-    title: "AI Fundamentals",
-    teacherName: "Charlotte Moore",
-    price: 350,
-    date: "20-10-2024",
-    time: { startTime: "11:00", endTime: "13:00" },
-    lectures: 30,
-    isFreelancer: true,
-    status: "active",
-    language: "Spanish",
-  },
-];
-
-const FreelancersCourses = () => {
-  const [filteredCourses, setFilteredCourses] = useState(
-    coursesData.filter((course) => course.status === "active")
-  );
-  const [selectedLanguage, setSelectedLanguage] = useState("All");
+const FreelancerCourses = () => {
+  const [filteredCourses, setFilteredCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const activeCoursesCount = coursesData.filter(
-    (course) => course.status === "active"
+  const [selectedLanguage, setSelectedLanguage] = useState("All");
+  const [activeTab, setActiveTab] = useState("active");
+
+  const { data: courses, isLoading } = useGetAllCoursesQuery();
+
+  useEffect(() => {
+    if (courses) {
+      const courseData = courses?.data?.filter(
+        (course) => course.type === "freelancer"
+      );
+      setFilteredCourses(
+        courseData.filter((course) => course.status === activeTab)
+      );
+    }
+  }, [courses, activeTab]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  const courseData = courses?.data || [];
+
+  const activeCoursesCount = courseData.filter(
+    (course) => course.status === "active" && course.type === "freelancer"
   ).length;
-  const inactiveCoursesCount = coursesData.filter(
-    (course) => course.status === "inactive"
+  const inactiveCoursesCount = courseData.filter(
+    (course) => course.status === "completed" && course.type === "freelancer"
   ).length;
 
   const handleTabChange = (key) => {
-    const updatedCourses = coursesData.filter(
-      (course) => course.status === key
-    );
-    setFilteredCourses(updatedCourses);
-    setSearchQuery(""); // Reset search when tab changes
-  };
-
-  const handleLanguageChange = (value) => {
-    setSelectedLanguage(value);
-    const updatedCourses = coursesData.filter(
-      (course) =>
-        (course.status === "active" || course.status === "inactive") &&
-        (value === "All" || course.language === value)
-    );
-    setFilteredCourses(updatedCourses);
+    setActiveTab(key);
+    setSearchQuery("");
+    setSelectedLanguage("All");
   };
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-    setFilteredCourses(
-      coursesData.filter(
-        (course) =>
-          course.status === "active" &&
-          (course.title.toLowerCase().includes(query) ||
-            course.teacherName.toLowerCase().includes(query))
-      )
+
+    const updatedCourses = courseData.filter((course) => {
+      const isMatchingTitle = course.name.toLowerCase().includes(query);
+      const isMatchingTeacher = course.teacherName
+        .toLowerCase()
+        .includes(query);
+      const isLanguageMatch =
+        selectedLanguage === "All" || course.language === selectedLanguage;
+      const isStatusMatch = course.status === activeTab;
+
+      return (
+        isStatusMatch &&
+        (isMatchingTitle || isMatchingTeacher) &&
+        isLanguageMatch
+      );
+    });
+
+    setFilteredCourses(updatedCourses);
+  };
+
+  const handleLanguageChange = (value) => {
+    setSelectedLanguage(value);
+    const updatedCourses = courseData.filter(
+      (course) =>
+        course.status === activeTab && // Only filter based on the current tab
+        (value === "All" || course.language === value)
     );
+    setFilteredCourses(updatedCourses);
   };
 
   return (
     <div>
       <h1 className="text-2xl font-bold my-5">Freelancer Courses</h1>
-      <Tabs defaultActiveKey="active" onChange={handleTabChange}>
+      <Tabs
+        defaultActiveKey="active"
+        activeKey={activeTab}
+        onChange={handleTabChange}
+      >
         <Tabs.TabPane tab={`Active (${activeCoursesCount})`} key="active" />
         <Tabs.TabPane
-          tab={`Inactive (${inactiveCoursesCount})`}
-          key="inactive"
+          tab={`Completed (${inactiveCoursesCount})`}
+          key="completed"
         />
       </Tabs>
-      <div className="flex justify-end gap-5 mb-6 items-center me-40">
-        <Select
-          value={selectedLanguage}
-          onChange={handleLanguageChange}
-          className="w-[200px] border rounded-md focus:outline-primary"
-          style={{ height: "42px" }}
-        >
-          <Option value="All">All Languages</Option>
-          <Option value="English">English</Option>
-          <Option value="Spanish">Spanish</Option>
-          <Option value="Hibru">Hibru</Option>
-        </Select>
+
+      <div className="flex justify-end gap-5 mb-6 2xl:mx-20 items-center">
         <input
           type="text"
           value={searchQuery}
           onChange={handleSearch}
-          placeholder="Search"
-          className="w-[400px] p-2 border rounded-md focus:outline-primary"
+          placeholder="Search by title or teacher"
+          className="w-[300px] p-2 border rounded-md focus:outline-primary"
         />
+
+        <Select
+          value={selectedLanguage}
+          onChange={handleLanguageChange}
+          className="w-[200px] border rounded-md focus:outline-primary"
+        >
+          <Option value="All">All Languages</Option>
+          <Option value="ENGLISH">English</Option>
+          <Option value="SPANISH">Spanish</Option>
+          <Option value="HIBRU">Hibru</Option>
+        </Select>
       </div>
-      <div className="flex justify-center flex-wrap gap-5">
-        {filteredCourses.map((course, i) => (
-          <div key={i} className="w-[400px] p-3 border rounded-2xl bg-white">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:mx-20 gap-6">
+        {filteredCourses.map((course, index) => (
+          <div
+            key={index}
+            className="border rounded-md p-4 shadow-md flex flex-col h-full"
+          >
             <img
-              className="w-full rounded-xl h-[230px]"
-              src={course.bannerImg}
-              alt="cardBanner"
+              src={`${import.meta.env.VITE_BASE_URL}${course.banner}`}
+              alt={course.title}
+              className="w-full h-60 object-cover rounded-lg mb-4"
             />
-            <div className="flex items-center mt-2 justify-between">
-              <h1 className="text-lg font-bold">{course.title}</h1>
-              <p className="text-lg font-bold text-primary">${course.price}</p>
+            <div className="flex items-start justify-between w-full">
+              <h3 className="text-lg font-semibold mb-2 w-[80%]">
+                {course.name}
+              </h3>
+              <p className="text-xl font-bold text-primary">${course.price}</p>
             </div>
-            <h1 className="text-gray-500 my-1">{course.teacherName}</h1>
-            <div className="flex items-center justify-between font-semibold text-sm">
+            <p className="text-sm text-gray-600 mb-1">{course.teacherName}</p>
+            <div className="flex-grow" />
+            <div className="flex items-center justify-between font-semibold text-xs mt-auto">
               <p className="flex items-center gap-1">
                 <span>
                   <SlCalender size={16} />
@@ -347,18 +144,15 @@ const FreelancersCourses = () => {
                 <span>
                   <IoTime size={20} />
                 </span>
-                {course.time.startTime} - {course.time.endTime}
+                {course.startTime} - {course.endTime}
               </p>
               <p className="flex items-center gap-1">
                 <span>
                   <LiaChalkboardTeacherSolid size={24} />
                 </span>
-                {course.lectures} Lectures
+                {course.lectures.length} Lectures
               </p>
             </div>
-            <Button className="bg-primary w-full mt-3 text-white font-semibold">
-              View Details
-            </Button>
           </div>
         ))}
       </div>
@@ -366,4 +160,4 @@ const FreelancersCourses = () => {
   );
 };
 
-export default FreelancersCourses;
+export default FreelancerCourses;

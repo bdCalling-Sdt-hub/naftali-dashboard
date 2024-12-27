@@ -9,6 +9,7 @@ import {
 } from "../../../redux/apiSlices/banenrSlice";
 import whiteBg from "../../../assets/whiteBG.png";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
+import toast from "react-hot-toast";
 
 const ProfileBanner = () => {
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
@@ -57,10 +58,12 @@ const ProfileBanner = () => {
     }
 
     try {
-      await addProfileBanner(formData).unwrap();
-      message.success("Banner added successfully.");
-      setIsAddModalVisible(false);
-      setImageFile(null);
+      const response = await addProfileBanner(formData).unwrap();
+      if (response.success) {
+        toast.success("Banner added successfully.");
+        setIsAddModalVisible(false);
+        setImgURL(null);
+      }
     } catch (error) {
       message.error("Failed to add banner.");
     }
@@ -68,8 +71,10 @@ const ProfileBanner = () => {
 
   const handleDelete = async (id) => {
     try {
-      await deleteProfileBanner(id).unwrap();
-      message.success("Banner deleted successfully.");
+      const response = await deleteProfileBanner(id).unwrap();
+      if (response.success) {
+        toast.success("Banner deleted successfully.");
+      }
     } catch (error) {
       message.error("Failed to delete banner.");
     }

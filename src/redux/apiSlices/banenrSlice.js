@@ -11,6 +11,15 @@ const bannerSlice = api.injectEndpoints({
       },
       providesTags: ["Banner"],
     }),
+    getHomeSlider: builder.query({
+      query: () => {
+        return {
+          url: `/banners`,
+          method: "GET",
+        };
+      },
+      providesTags: ["Banner"],
+    }),
     getBannerById: builder.query({
       query: (id) => {
         return {
@@ -43,7 +52,7 @@ const bannerSlice = api.injectEndpoints({
       query: (id) => {
         return {
           method: "DELETE",
-          url: `/others/banner/${id}`,
+          url: `/banners/delete/${id}`,
         };
       },
       invalidatesTags: ["Banner"],
@@ -53,6 +62,7 @@ const bannerSlice = api.injectEndpoints({
 
 export const {
   useGetProfileBannerQuery,
+  useGetHomeSliderQuery,
   useGetBannerByIdQuery,
   useAddProfileBannerMutation,
   useUpdateBannerMutation,
