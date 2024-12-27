@@ -4,10 +4,9 @@ import logo from "../../../assets/logo.png";
 // Dummy data for Professionals Component
 
 const Professionals = ({ data }) => {
-  const totalCoursesSold = data.reduce(
-    (total, teacher) => total + teacher?.enrollmentCount,
-    0
-  );
+  const totalCoursesSold =
+    Array.isArray(data) &&
+    data?.reduce((total, teacher) => total + teacher?.enrollmentCount, 0);
   const teachersWithPercentages = data?.map((teacher) => ({
     ...teacher,
     soldPercentage: (
