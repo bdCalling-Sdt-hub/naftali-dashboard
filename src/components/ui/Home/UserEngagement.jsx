@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -9,13 +9,27 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { useOverAllStateQuery } from "../../../redux/apiSlices/dashboardSlice";
 
 const UserEngagement = () => {
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 12 }, (_, i) => currentYear - 10 + i);
 
-  const [selectedYear, setSelectedYear] = useState(currentYear.toString());
+  const [selectedYear, setSelectedYear] = useState("2024");
 
+  const {
+    data: overAllState,
+    isLoading,
+    refetch,
+  } = useOverAllStateQuery({ range: selectedYear }, { skip: false });
+
+  useEffect(() => {
+    refetch();
+  }, [selectedYear, refetch]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
   // Dummy data for User Engagement
   const dummyChartData = [
     { month: "January", Students: 120, Teachers: 200 },
@@ -32,7 +46,8 @@ const UserEngagement = () => {
     { month: "December", Students: 310, Teachers: 420 },
   ];
 
-  const chartData = dummyChartData;
+  const chartData = overAllState?.data;
+  // console.log(chartData);
 
   return (
     <div className="bg-white p-5 w-[100%] h-[300px] rounded-2xl border">
@@ -70,17 +85,17 @@ const UserEngagement = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" tickFormatter={(month) => month.slice(0, 3)} />
+          <XAxis dataKey="month" />
           <YAxis />
           <Tooltip />
           <Legend verticalAlign="bottom" align="center" />
           <Line
             type="monotone"
-            dataKey="Students"
+            dataKey="platform"
             stroke="#b58700"
             activeDot={{ r: 8 }}
           />
-          <Line type="monotone" dataKey="Teachers" stroke="#5c2579cc" />
+          <Line type="monotone" dataKey="freelancer" stroke="#5c2579cc" />
         </LineChart>
       </ResponsiveContainer>
     </div>

@@ -189,11 +189,11 @@ const Sidebar = () => {
       label: <Link to="/seminars">Seminars</Link>,
     },
 
-    {
-      key: "/our-transactions",
-      icon: <FaMoneyBillTransfer size={24} />,
-      label: <Link to="/our-transactions">Transactions</Link>,
-    },
+    // {
+    //   key: "/our-transactions",
+    //   icon: <FaMoneyBillTransfer size={24} />,
+    //   label: <Link to="/our-transactions">Transactions</Link>,
+    // },
 
     {
       key: "subMenuSetting",

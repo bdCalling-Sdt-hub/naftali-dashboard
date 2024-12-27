@@ -8,87 +8,72 @@ import {
   Button,
   Input,
   Switch,
+  Form,
 } from "antd";
 import { MdDelete } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
+import {
+  useAddAdminProfileMutation,
+  useDeleteAdminProfileMutation,
+  useFetchAllAdminsQuery,
+} from "../../redux/apiSlices/authSlice";
+import toast from "react-hot-toast";
 
 const { Option } = Select;
 
 const ManageAdmin = () => {
-  // Admin Data (you can replace this with a real API call)
-  const [data, setData] = useState([
-    {
-      key: "1",
-      fullName: "John Doe",
-      email: "johndoe@example.com",
-      role: "Admin",
-      status: "Active",
-    },
-    {
-      key: "2",
-      fullName: "Jane Smith",
-      email: "janesmith@example.com",
-      role: "Admin",
-      status: "Inactive",
-    },
-    {
-      key: "3",
-      fullName: "Alice Johnson",
-      email: "alicejohnson@example.com",
-      role: "Admin",
-      status: "Active",
-    },
-    {
-      key: "4",
-      fullName: "Bob Brown",
-      email: "bobbrown@example.com",
-      role: "Admin",
-      status: "Inactive",
-    },
-  ]);
-
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [newAdmin, setNewAdmin] = useState({
-    fullName: "",
-    email: "",
-    status: true, // Default status is Active
-  });
+  const { data: adminData, isLoading } = useFetchAllAdminsQuery();
+  const [deleteAdminProfile] = useDeleteAdminProfileMutation();
+  const [addAdminProfile] = useAddAdminProfileMutation();
+  const [form] = Form.useForm();
 
-  // Handle status change
-  const handleStatusChange = (value, key) => {
-    const newData = [...data];
-    const index = newData.findIndex((item) => item.key === key);
-    if (index > -1) {
-      newData[index].status = value;
-      setData(newData);
-      message.success(`Status changed to ${value}`);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const adminsData = adminData?.data || [];
+  // console.log(adminsData);
+
+  const handleDeleteAdmin = async (id) => {
+    try {
+      const res = await deleteAdminProfile(id).unwrap();
+      if (res.success) {
+        toast.success("Admin deleted successfully!");
+      }
+    } catch (error) {
+      message.error("Failed to delete admin. Please try again.");
+    }
+  };
+  const handleAddAdmin = async (values) => {
+    try {
+      console.log(values);
+      const response = await addAdminProfile(values).unwrap();
+
+      if (response.success) {
+        toast.success("Admin added successfully!");
+        form.resetFields();
+        setIsModalVisible(false);
+      } else {
+        throw new Error(response.message || "Failed to add admin.");
+      }
+    } catch (error) {
+      message.error(error?.message || "An error occurred. Please try again.");
     }
   };
 
-  // Handle adding a new admin
-  const handleAddAdmin = () => {
-    const newAdminData = {
-      ...newAdmin,
-      key: (data.length + 1).toString(), // Simulate unique key
-      status: newAdmin.status ? "Active" : "Inactive", // Map boolean to status string
-    };
-    setData([...data, newAdminData]);
-    setIsModalVisible(false);
-    setNewAdmin({ fullName: "", email: "", status: true });
-    message.success("New admin added successfully");
-  };
-
-  // Table columns
   const columns = [
     {
       title: "Full Name",
-      dataIndex: "fullName",
+      dataIndex: "name",
       key: "fullName",
+      render: (record) => <span>{record || "N/A"}</span>,
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
+      render: (record) => <p>{record || "N/A"}</p>,
     },
     {
       title: "Role",
@@ -103,7 +88,7 @@ const ManageAdmin = () => {
         <Select
           defaultValue={status}
           style={{ width: 120 }}
-          onChange={(value) => handleStatusChange(value, record.key)}
+          onChange={(value) => console.log(value, record.key)}
         >
           <Option value="Active" style={{ color: "green" }}>
             Active
@@ -117,9 +102,13 @@ const ManageAdmin = () => {
     {
       title: "Action",
       key: "action",
-      render: () => (
+      render: (record) => (
         <Space size="middle">
-          <MdDelete size={24} className="text-red-600" />
+          <MdDelete
+            onClick={() => handleDeleteAdmin(record._id)}
+            size={24}
+            className="text-red-600 cursor-pointer"
+          />
         </Space>
       ),
     },
@@ -128,7 +117,6 @@ const ManageAdmin = () => {
   return (
     <div className="p-6">
       <h2 className="text-xl font-bold mb-4">Manage Admins</h2>
-      {/* Add Admin Button */}
       <Button
         className="bg-primary py-5 text-white"
         onClick={() => setIsModalVisible(true)}
@@ -137,14 +125,21 @@ const ManageAdmin = () => {
         <IoMdAdd size={20} /> Add Admin
       </Button>
 
-      <Table columns={columns} dataSource={data} />
+      <Table
+        columns={columns}
+        dataSource={adminsData}
+        rowKey={(record) => record._id}
+      />
 
       {/* Add Admin Modal */}
       <Modal
         title="Add New Admin"
-        visible={isModalVisible}
-        onOk={handleAddAdmin}
-        onCancel={() => setIsModalVisible(false)}
+        open={isModalVisible}
+        onOk={() => form.submit()}
+        onCancel={() => {
+          form.resetFields();
+          setIsModalVisible(false);
+        }}
         okText="Add Admin"
         okButtonProps={{
           style: {
@@ -153,37 +148,32 @@ const ManageAdmin = () => {
           },
         }}
       >
-        <div>
-          <div className="mb-4">
-            <label>Full Name</label>
-            <Input
-              value={newAdmin.fullName}
-              onChange={(e) =>
-                setNewAdmin({ ...newAdmin, fullName: e.target.value })
-              }
-            />
-          </div>
-          <div className="mb-4">
-            <label>Email</label>
-            <Input
-              value={newAdmin.email}
-              onChange={(e) =>
-                setNewAdmin({ ...newAdmin, email: e.target.value })
-              }
-            />
-          </div>
-          <div className="mb-4">
-            <label>Status</label> <br />
-            <Switch
-              checked={newAdmin.status}
-              onChange={(checked) =>
-                setNewAdmin({ ...newAdmin, status: checked })
-              }
-              checkedChildren="Active"
-              unCheckedChildren="Inactive"
-            />
-          </div>
-        </div>
+        <Form form={form} layout="vertical" onFinish={handleAddAdmin}>
+          <Form.Item
+            label="Full Name"
+            name="name"
+            rules={[{ required: true, message: "Please enter the full name!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: "Please enter the email!" },
+              { type: "email", message: "Please enter a valid email!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please enter the password!" }]}
+          >
+            <Input.Password />
+          </Form.Item>
+        </Form>
       </Modal>
     </div>
   );

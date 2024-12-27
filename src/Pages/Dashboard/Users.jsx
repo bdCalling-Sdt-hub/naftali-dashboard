@@ -21,7 +21,7 @@ const Students = () => {
   }
 
   const data = studentsData?.data;
-  console.log(data);
+  // console.log(data);
 
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);

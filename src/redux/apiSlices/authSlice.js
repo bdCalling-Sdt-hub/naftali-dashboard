@@ -117,6 +117,35 @@ const authSlice = api.injectEndpoints({
         };
       },
     }),
+    fetchAllAdmins: builder.query({
+      query: () => {
+        return {
+          method: "GET",
+          url: "admin/",
+        };
+      },
+      providesTags: ["Admin"],
+    }),
+    deleteAdminProfile: builder.mutation({
+      query: (id) => {
+        return {
+          method: "DELETE",
+          url: `admin/${id}`,
+        };
+      },
+      invalidatesTags: ["Admin"],
+    }),
+    AddAdminProfile: builder.mutation({
+      query: (data) => {
+        console.log("jhgvkjuy", data);
+        return {
+          method: "POST",
+          url: `/admin`,
+          body: data,
+        };
+      },
+      invalidatesTags: ["Admin"],
+    }),
   }),
 });
 
@@ -130,4 +159,7 @@ export const {
   useProfileQuery,
   useUpdateAdminProfileMutation,
   useFetchAdminProfileQuery,
+  useFetchAllAdminsQuery,
+  useDeleteAdminProfileMutation,
+  useAddAdminProfileMutation,
 } = authSlice;

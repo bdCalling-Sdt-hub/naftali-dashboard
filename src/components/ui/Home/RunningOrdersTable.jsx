@@ -60,7 +60,7 @@ const columns = [
 ];
 
 const TopCoursesTable = ({ topCourses }) => {
-  console.log(topCourses);
+  // console.log(topCourses);
 
   const topThreeCourses = topCourses
     .map((course) => ({
@@ -85,6 +85,7 @@ const TopCoursesTable = ({ topCourses }) => {
         columns={columns}
         pagination={false}
         dataSource={topThreeCourses}
+        rowKey={(record) => record.course._id}
       />
     </div>
   );

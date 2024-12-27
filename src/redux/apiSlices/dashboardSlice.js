@@ -30,7 +30,7 @@ const dashboardSlice = api.injectEndpoints({
       query: ({ range }) => {
         return {
           method: "GET",
-          url: `/dashboard/overall-stat?range=${range}`,
+          url: `/admin/enrollments?year=${range}`,
         };
       },
     }),

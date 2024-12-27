@@ -39,7 +39,7 @@ const GeneralStateSection = () => {
         <div className="flex flex-col justify-center items-start">
           <h2 className="text-center font-semibold text-xl">Total Earnings</h2>
           <div>
-            <p className="text-3xl font-bold">{state?.totalUsers}</p>
+            <p className="text-3xl font-bold">{state?.totalEarning}</p>
           </div>
         </div>
       </div>
@@ -62,12 +62,16 @@ const GeneralStateSection = () => {
           <h2 className="text-center font-semibold text-xl">Total Teachers</h2>
           <div className="flex gap-5">
             <div className="flex flex-col items-center">
-              <p className="text-sm">Platform</p>
-              <p className="text-lg">{state?.teacherCount?.platform}</p>
+              <p className="text-2xl font-semibold">
+                {state?.teacherCount?.platform}
+              </p>
+              <p className="text-sm text-gray-600">Platform</p>
             </div>
             <div className="flex flex-col items-center">
-              <p className="text-sm">Freelancer</p>
-              <p className="text-lg">{state?.teacherCount?.freelancer}</p>
+              <p className="text-2xl font-semibold">
+                {state?.teacherCount?.freelancer}
+              </p>
+              <p className="text-sm text-gray-600">Freelancer</p>
             </div>
           </div>
         </div>
@@ -80,12 +84,16 @@ const GeneralStateSection = () => {
           <h2 className="text-center font-semibold text-xl">Sold Courses</h2>
           <div className="flex gap-5">
             <div className="flex flex-col items-center">
-              <p className="text-sm">Platform</p>
-              <p className="text-lg">{state?.soldCourses?.platform}</p>
+              <p className="text-2xl font-semibold">
+                {state?.soldCourses?.platform}
+              </p>
+              <p className="text-sm text-gray-600">Platform</p>
             </div>
             <div className="flex flex-col items-center">
-              <p className="text-sm">Freelancer</p>
-              <p className="text-lg">{state?.soldCourses?.freelancer}</p>
+              <p className="text-2xl font-semibold">
+                {state?.soldCourses?.freelancer}
+              </p>
+              <p className="text-sm text-gray-600">Freelancer</p>
             </div>
           </div>
         </div>

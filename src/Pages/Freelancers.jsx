@@ -170,6 +170,7 @@ const Freelancers = () => {
         dataSource={teachers}
         pagination={{ pageSize, onChange: (page) => setPageSize(page) }}
         scroll={{ x: 1000 }}
+        rowKey={(record) => record.id}
       />
     </>
   );

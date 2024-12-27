@@ -57,6 +57,26 @@ const bannerSlice = api.injectEndpoints({
       },
       invalidatesTags: ["Banner"],
     }),
+
+    getSeminars: builder.query({
+      query: () => {
+        return {
+          url: `/seminars`,
+          method: "GET",
+        };
+      },
+      providesTags: ["Seminar"],
+    }),
+    addSeminar: builder.mutation({
+      query: (data) => {
+        return {
+          method: "POST",
+          url: "/seminars",
+          body: data,
+        };
+      },
+      invalidatesTags: ["Banner"],
+    }),
   }),
 });
 
@@ -67,4 +87,6 @@ export const {
   useAddProfileBannerMutation,
   useUpdateBannerMutation,
   useDeleteProfileBannerMutation,
+  useGetSeminarsQuery,
+  useAddSeminarMutation,
 } = bannerSlice;

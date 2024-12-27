@@ -21,24 +21,21 @@ const PersonalInfo = () => {
   const [file, setFile] = useState(null);
   const [form] = Form.useForm();
 
-  const isLoading = false;
-
-  // const { data: fetchAdminProfile, isLoading } = useFetchAdminProfileQuery();
+  const { data: fetchAdminProfile, isLoading } = useFetchAdminProfileQuery();
   // const [updateAdminProfile] = useUpdateAdminProfileMutation();
 
-  const fetchAdminProfile = [];
-
   const adminData = fetchAdminProfile?.data;
+  console.log(adminData);
 
   useEffect(() => {
     if (adminData) {
       form.setFieldsValue({
         name: adminData?.name,
         email: adminData?.email,
-        address: adminData?.address,
-        phone: adminData?.contact,
+        address: adminData?.address || "unknown",
+        phone: adminData?.contact || "unknown",
       });
-      setImgURL(`${baseUrl}${adminData?.profileImg}`);
+      setImgURL(`${baseUrl}${adminData?.profile}`);
       setContact(adminData?.contact);
     }
   }, [form, adminData]);

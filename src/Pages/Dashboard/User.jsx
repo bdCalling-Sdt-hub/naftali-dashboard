@@ -15,7 +15,6 @@ const User = () => {
   }
 
   const student = studentData?.data;
-  console.log(student);
 
   const runningCourses = [
     {
@@ -123,9 +122,7 @@ const User = () => {
         </div>
       </div>
 
-      <div>
-        <RunningOrderTable data={runningCourses} />
-      </div>
+      <div>{/* <RunningOrderTable data={runningCourses} /> */}</div>
     </div>
   );
 };

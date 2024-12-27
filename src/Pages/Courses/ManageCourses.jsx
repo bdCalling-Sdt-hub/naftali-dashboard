@@ -25,7 +25,7 @@ const ManageCourses = () => {
     return <div>Loading...</div>;
   }
   const courseData = courses?.data || [];
-  console.log(courseData);
+  // console.log(courseData);
 
   const columns = [
     {
@@ -144,6 +144,7 @@ const ManageCourses = () => {
         pagination={{ pageSize: 7 }}
         bordered
         className="bg-white rounded-md"
+        rowKey={(record) => record._id}
       />
     </div>
   );

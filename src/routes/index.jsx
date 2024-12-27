@@ -30,13 +30,14 @@ import Orders from "../Pages/Dashboard/Orders";
 import Vendor from "../Pages/Dashboard/Vendor";
 import Freelancers from "../Pages/Freelancers";
 import ProfileBanner from "../Pages/Dashboard/Banners/ProfileBanner";
-import HomeSlider from "../Pages/Dashboard/Banners/homeSlider";
+
 import OfflineCourses from "../Pages/Courses/OfflineCourses";
 import FreelancersCourses from "../Pages/Courses/FreelancersCourses";
 import ManageCourses from "../Pages/Courses/ManageCourses";
 import ManageAdmin from "../Pages/MyTeam/ManageAdmin";
 import ManageTeachers from "../Pages/MyTeam/ManageTeachers";
 import Seminars from "../Pages/Seminars";
+import HomeSlider from "../Pages/Dashboard/Banners/HomeSlider";
 
 const router = createBrowserRouter([
   {

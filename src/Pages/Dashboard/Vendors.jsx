@@ -27,7 +27,7 @@ const Teachers = () => {
   }
 
   const data = teachersData?.data;
-  console.log(data);
+  // console.log(data);
 
   const columns = [
     {

@@ -12,7 +12,6 @@ const userSlice = api.injectEndpoints({
     }),
     students: builder.query({
       query: () => {
-        console.log("Calling students");
         return {
           method: "GET",
           url: "/students",
@@ -26,12 +25,32 @@ const userSlice = api.injectEndpoints({
           url: "/teachers/all",
         };
       },
+      providesTags: ["Teachers"],
+    }),
+    addTeacher: builder.mutation({
+      query: (data) => {
+        console.log("aserga", data);
+        return {
+          method: "POST",
+          url: "/admin/create-appointed-teacher",
+          body: data,
+        };
+      },
+      invalidatesTags: ["Teachers"],
     }),
     teacherById: builder.query({
       query: (id) => {
         return {
           method: "GET",
           url: `teachers/${id}`,
+        };
+      },
+    }),
+    reviewByTeacherById: builder.query({
+      query: (id) => {
+        return {
+          method: "GET",
+          url: `/reviews/teachers/${id}`,
         };
       },
     }),
@@ -52,4 +71,6 @@ export const {
   useTeachersQuery,
   useTeacherByIdQuery,
   useStudentByIdQuery,
+  useAddTeacherMutation,
+  useReviewByTeacherByIdQuery,
 } = userSlice;
