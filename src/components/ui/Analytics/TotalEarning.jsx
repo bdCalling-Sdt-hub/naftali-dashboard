@@ -39,7 +39,7 @@ const TotalEarning = () => {
   ];
 
   // Map the data to include month names
-  const chartData = data.map((item) => ({
+  const chartData = data?.map((item) => ({
     ...item,
     month: monthNames[item.month - 1], // Map month number to name
   }));
@@ -63,7 +63,7 @@ const TotalEarning = () => {
             overflowY: "scroll",
           }}
         >
-          {years.map((year) => (
+          {years?.map((year) => (
             <option key={year} value={year}>
               {year}
             </option>

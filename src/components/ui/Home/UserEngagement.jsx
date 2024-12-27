@@ -66,7 +66,7 @@ const UserEngagement = () => {
             {years
               .slice()
               .reverse()
-              .map((year) => (
+              ?.map((year) => (
                 <option key={year} value={year}>
                   {year}
                 </option>

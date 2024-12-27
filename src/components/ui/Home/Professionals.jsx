@@ -8,7 +8,7 @@ const Professionals = ({ data }) => {
     (total, teacher) => total + teacher?.enrollmentCount,
     0
   );
-  const teachersWithPercentages = data.map((teacher) => ({
+  const teachersWithPercentages = data?.map((teacher) => ({
     ...teacher,
     soldPercentage: (
       (teacher?.enrollmentCount / totalCoursesSold) *

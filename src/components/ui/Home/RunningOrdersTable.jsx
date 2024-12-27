@@ -63,7 +63,7 @@ const TopCoursesTable = ({ topCourses }) => {
   // console.log(topCourses);
 
   const topThreeCourses = topCourses
-    .map((course) => ({
+    ?.map((course) => ({
       ...course,
       earnings:
         course.course.price * (course.course.enrollmentsID?.length || 0),
