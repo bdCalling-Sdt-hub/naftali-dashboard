@@ -33,18 +33,17 @@ const PrivateRoute = ({ children }) => {
     }
   }, [navigate, location]);
 
-  const authToken = localStorage.getItem("authToken");
+  const authToken =
+    localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
   if (authToken) {
     try {
       const decodedToken = jwtDecode(authToken);
       const { role } = decodedToken;
 
-      if (role === "ADMIN" || role === "SUPER_ADMIN") {
+      if (role === "ADMIN" || role === "SUPERADMIN") {
         return children;
       }
-    } catch {
-      // Do nothing here; the useEffect already handles invalid tokens
-    }
+    } catch {}
   }
 
   return <Navigate to="/auth/login" />;
