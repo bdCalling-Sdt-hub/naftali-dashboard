@@ -21,7 +21,7 @@ const PrivateRoute = ({ children }) => {
 
         const { role } = decodedToken;
 
-        if (!role || (role !== "ADMIN" && role !== "SUPER_ADMIN")) {
+        if (!role || (role !== "ADMIN" && role !== "SUPERADMIN")) {
           toast.error("Access denied. Insufficient permissions.");
           navigate("/auth/login", { replace: true, state: { from: location } });
         }
