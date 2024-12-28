@@ -9,7 +9,8 @@ const PrivateRoute = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const authToken = localStorage.getItem("authToken");
+    const authToken =
+      localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
 
     if (!authToken) {
       toast.error("You are not authorized to access this. Please login first.");
