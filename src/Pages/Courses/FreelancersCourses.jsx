@@ -110,7 +110,7 @@ const FreelancerCourses = () => {
           <Option value="All">All Languages</Option>
           <Option value="ENGLISH">English</Option>
           <Option value="SPANISH">Spanish</Option>
-          <Option value="HIBRU">Hibru</Option>
+          <Option value="HEBREW">Hebrew</Option>
         </Select>
       </div>
 

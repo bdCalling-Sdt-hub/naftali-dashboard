@@ -2,15 +2,20 @@ import React, { useState } from "react";
 import { Table, Button, Space, Avatar, Tooltip } from "antd";
 import { Link } from "react-router-dom";
 import randomImg from "../../assets/randomProfile2.jpg";
-import { useStudentsQuery } from "../../redux/apiSlices/userSlice";
+import {
+  useDeleteStudentMutation,
+  useStudentsQuery,
+} from "../../redux/apiSlices/userSlice";
 import logo from "../../assets/logo.png";
 import moment from "moment/moment";
+import toast from "react-hot-toast";
 
 const Students = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [pageSize, setPageSize] = useState(10);
 
-  const { data: studentsData, isLoading } = useStudentsQuery();
+  const { data: studentsData, isLoading, refetch } = useStudentsQuery();
+  const [deleteStudent] = useDeleteStudentMutation();
 
   if (isLoading) {
     return (
@@ -28,7 +33,28 @@ const Students = () => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
+  const handleDeleteStudent = async (id) => {
+    console.log(id);
+    try {
+      const response = await deleteStudent(id).unwrap();
+      if (response.success) {
+        refetch();
+        toast.success("Student deleted successfully");
+      }
+    } catch (error) {
+      console.error("Error deleting student:", error);
+    }
+  };
+
   const columns = [
+    {
+      title: "No.",
+      dataIndex: "Serial",
+      key: "Serial",
+      render: (_, record, index) => {
+        return <p>{index + 1}</p>;
+      },
+    },
     {
       title: "Id",
       dataIndex: "_id",
@@ -123,8 +149,11 @@ const Students = () => {
               Details
             </Button>
           </Link>
-          <Button className="border border-red-600 text-red-700">
-            Restrict
+          <Button
+            onClick={() => handleDeleteStudent(record._id)}
+            className="border border-red-600 text-red-700"
+          >
+            Delete
           </Button>
         </Space>
       ),

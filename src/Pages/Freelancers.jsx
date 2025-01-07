@@ -1,85 +1,44 @@
 import React, { useState } from "react";
-import { Table, Button, Space, Avatar } from "antd";
+import {
+  Table,
+  Button,
+  Space,
+  Avatar,
+  Modal,
+  Form,
+  Input,
+  Upload,
+  Tooltip,
+} from "antd";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import randomImg from "../../src/assets/randomProfile2.jpg";
+import { useTeachersQuery } from "../redux/apiSlices/userSlice";
 
 const Freelancers = () => {
-  const [pageSize, setPageSize] = useState(10);
+  // const [pageSize, setPageSize] = useState(10);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [form] = Form.useForm();
 
-  // Dummy data for teachers
-  const teachers = [
-    {
-      id: "1",
-      name: "Alice Johnson",
-      email: "alice.johnson@example.com",
-      phoneNumber: "+123456789",
-      address: "45 Willow St, Springfield",
-      subjects: ["Math", "Physics"],
-      profileImg: "https://randomuser.me/api/portraits/women/20.jpg",
-      status: "Active",
-      rating: 4.5,
-      totalCourses: 5,
-      totalStudents: 120,
-    },
-    {
-      id: "2",
-      name: "Robert Brown",
-      email: "robert.brown@example.com",
-      phoneNumber: "+987654321",
-      address: "12 Maple Ave, Springfield",
-      subjects: ["English", "History"],
-      profileImg: "https://randomuser.me/api/portraits/men/21.jpg",
-      status: "On Leave",
-      rating: 3.8,
-      totalCourses: 3,
-      totalStudents: 80,
-    },
-    {
-      id: "3",
-      name: "Laura Wilson",
-      email: "laura.wilson@example.com",
-      phoneNumber: "+192837465",
-      address: "78 Elm St, Springfield",
-      subjects: ["Biology", "Chemistry"],
-      profileImg: "https://randomuser.me/api/portraits/women/22.jpg",
-      status: "Active",
-      rating: 4.7,
-      totalCourses: 7,
-      totalStudents: 150,
-    },
-    {
-      id: "4",
-      name: "Michael Scott",
-      email: "michael.scott@example.com",
-      phoneNumber: "+456789123",
-      address: "90 Cedar St, Springfield",
-      subjects: ["Business Studies"],
-      profileImg: "https://randomuser.me/api/portraits/men/23.jpg",
-      status: "Retired",
-      rating: 3.5,
-      totalCourses: 4,
-      totalStudents: 95,
-    },
-    {
-      id: "5",
-      name: "Sophia Davis",
-      email: "sophia.davis@example.com",
-      phoneNumber: "+789456123",
-      address: "65 Oak Lane, Springfield",
-      subjects: ["Art", "Design"],
-      profileImg: "https://randomuser.me/api/portraits/women/24.jpg",
-      status: "Active",
-      rating: 4.2,
-      totalCourses: 6,
-      totalStudents: 110,
-    },
-  ];
+  const { data: teachersData, isLoading } = useTeachersQuery();
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  const data = teachersData?.data?.filter(
+    (teacher) => teacher.type === "freelancer"
+  );
+  console.log(data);
 
   const columns = [
     {
       title: "Id",
-      dataIndex: "id",
+      dataIndex: "_id",
       key: "id",
+      render: (record) => {
+        return <Tooltip title={record}>{record.slice(0, 5)}...</Tooltip>;
+      },
     },
     {
       title: "Name",
@@ -87,10 +46,17 @@ const Freelancers = () => {
       key: "name",
       render: (text, record) => {
         const name = record.name || "Unknown";
-        const imgUrl = record.profileImg || randomImg;
+
         return (
           <Space>
-            <Avatar src={imgUrl} alt={name} size="large" />
+            <Avatar
+              src={
+                `${import.meta.env.VITE_BASE_URL}${record?.profile}` ||
+                randomImg
+              }
+              alt={name}
+              size="large"
+            />
             <span>{name}</span>
           </Space>
         );
@@ -103,19 +69,24 @@ const Freelancers = () => {
     },
     {
       title: "Phone Number",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      dataIndex: "phone",
+      key: "phone",
     },
     {
       title: "Address",
-      dataIndex: "address",
-      key: "address",
+      dataIndex: "location",
+      key: "location",
+      render: (text) => {
+        return <p>{text || "N/A"}</p>;
+      },
     },
     {
-      title: "Subjects",
-      dataIndex: "subjects",
-      key: "subjects",
-      render: (subjects) => subjects.join(", "),
+      title: "Language",
+      dataIndex: "language",
+      key: "language",
+      render: (text) => {
+        return <p>{text || "N/A"}</p>;
+      },
     },
     {
       title: "Status",
@@ -130,48 +101,121 @@ const Freelancers = () => {
       },
     },
     {
-      title: "Rating",
-      dataIndex: "rating",
-      key: "rating",
-      align: "center",
-      sorter: (a, b) => a.rating - b.rating,
-      render: (rating) => <span>{rating}</span>,
-    },
-    {
-      title: "Courses",
-      dataIndex: "totalCourses",
-      key: "totalCourses",
-      align: "center",
-      render: (totalCourses) => <span>{totalCourses}</span>,
-    },
-
-    {
       title: "Actions",
       key: "actions",
       align: "center",
       render: (text, record) => (
         <Space>
-          <Link to={`/freelancer/profile/${record.id}`}>
+          <Link to={`/teacher/profile/${record._id}`}>
             <Button className="bg-secondary text-black border-none">
               Details
             </Button>
           </Link>
-          <Button className="border border-red-600 text-red-700">Remove</Button>
         </Space>
       ),
     },
   ];
 
+  const handleAddTeacher = (values) => {
+    console.log("New Teacher:", values);
+    setIsModalVisible(false);
+    form.resetFields();
+  };
+
   return (
     <>
-      <h1 className="text-2xl font-semibold my-5">Freelancers</h1>
+      <div className="flex justify-between items-center my-5">
+        <h1 className="text-2xl font-semibold">Teachers</h1>
+      </div>
+
       <Table
         columns={columns}
-        dataSource={teachers}
-        pagination={{ pageSize, onChange: (page) => setPageSize(page) }}
+        dataSource={data}
+        // pagination={{ pageSize, onChange: (page) => setPageSize(page) }}
         scroll={{ x: 1000 }}
-        rowKey={(record) => record.id}
+        rowKey={(record) => record._id}
       />
+
+      <Modal
+        title="Add New Teacher"
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+      >
+        <Form form={form} layout="vertical" onFinish={handleAddTeacher}>
+          <Form.Item
+            name="name"
+            label="Name"
+            rules={[
+              { required: true, message: "Please enter the teacher's name" },
+            ]}
+          >
+            <Input placeholder="Enter name" />
+          </Form.Item>
+
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              {
+                required: true,
+                type: "email",
+                message: "Please enter a valid email",
+              },
+            ]}
+          >
+            <Input placeholder="Enter email" />
+          </Form.Item>
+
+          <Form.Item
+            name="phoneNumber"
+            label="Phone Number"
+            rules={[
+              { required: true, message: "Please enter the phone number" },
+            ]}
+          >
+            <Input placeholder="Enter phone number" />
+          </Form.Item>
+
+          <Form.Item
+            name="address"
+            label="Address"
+            rules={[{ required: true, message: "Please enter the address" }]}
+          >
+            <Input placeholder="Enter address" />
+          </Form.Item>
+
+          <Form.Item
+            name="subjects"
+            label="Subjects"
+            rules={[
+              {
+                required: true,
+                message: "Please enter subjects separated by commas",
+              },
+            ]}
+          >
+            <Input placeholder="Enter subjects (e.g., Math, Physics)" />
+          </Form.Item>
+
+          <Form.Item
+            name="profileImg"
+            label="Profile Image"
+            valuePropName="fileList"
+            getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
+          >
+            <Upload maxCount={1} beforeUpload={() => false}>
+              <Button icon={<UploadOutlined />}>Upload Image</Button>
+            </Upload>
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Add Teacher
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 };

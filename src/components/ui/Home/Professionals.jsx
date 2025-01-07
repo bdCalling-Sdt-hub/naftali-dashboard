@@ -24,8 +24,11 @@ const Professionals = ({ data }) => {
             <img
               className="w-7 h-7 rounded-full"
               src={
-                `${import.meta.env.VITE_BASE_URL}${value?._id?.profile}` ||
-                randomImg
+                value?._id?.profile.startsWith("http")
+                  ? text
+                  : `${import.meta.env.VITE_BASE_URL}${
+                      value?._id?.profile || randomImg
+                    }`
               }
               alt={value?._id?.name}
             />

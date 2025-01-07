@@ -17,6 +17,7 @@ const userSlice = api.injectEndpoints({
           url: "/students",
         };
       },
+      providesTags: ["Students"],
     }),
     teachers: builder.query({
       query: () => {
@@ -62,6 +63,15 @@ const userSlice = api.injectEndpoints({
         };
       },
     }),
+    deleteStudent: builder.mutation({
+      query: (id) => {
+        return {
+          method: "DELETE",
+          url: `/students/delete/${id}`,
+        };
+      },
+      invalidatesTags: ["Students"],
+    }),
   }),
 });
 
@@ -72,5 +82,6 @@ export const {
   useTeacherByIdQuery,
   useStudentByIdQuery,
   useAddTeacherMutation,
+  useDeleteStudentMutation,
   useReviewByTeacherByIdQuery,
 } = userSlice;

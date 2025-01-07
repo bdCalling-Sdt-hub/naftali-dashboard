@@ -132,40 +132,35 @@ const TeacherDetails = () => {
               {teacherData.location}
             </p>
             <p className="text-gray-600">
-              <span className="font-semibold">degree:</span>{" "}
+              <span className="font-semibold">Degree:</span>{" "}
               {teacherData.degree}
             </p>
-            <p className="text-gray-600">
-              <span className="font-semibold">designation:</span>{" "}
-              {teacherData.designation}
-            </p>
+
             <p className="text-gray-600">
               <span className="font-semibold">Designation:</span>{" "}
               {teacherData.designation}
             </p>
             <p className="text-gray-600">
-              <span className="font-semibold">gender:</span>{" "}
+              <span className="font-semibold">Gender:</span>{" "}
               {teacherData.gender}
             </p>
             <p className="text-gray-600">
-              <span className="font-semibold">
-                Status: {teacherData.status}
-              </span>
+              <span className="font-semibold">Status:</span>
               <span
-                className={`px-2 py-1  ${
+                className={`px-2 py-1 font-bold ${
                   teacherData.status === "active"
                     ? "text-green-500"
-                    : teacher.status === "Inactive"
+                    : teacher.status === "inactive"
                     ? "text-red-500"
                     : "text-orange-500"
                 }`}
               >
-                {teacher.status}
+                {teacherData.status}
               </span>
             </p>
             <p className="text-gray-600">
               <span className="font-semibold">Average Rating:</span>{" "}
-              {teacherData.teacherRating}
+              {teacherData.teacherRating || "N/A"}
             </p>
           </div>
         </div>

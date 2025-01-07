@@ -75,7 +75,7 @@ const ManageTeachers = () => {
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold mb-4">Manage Teachers</h2>
         <Button
-          className="bg-primary py-2 px-4 text-white"
+          className="bg-primary py-5 px-4 font-semibold text-white"
           onClick={() => setIsModalVisible(true)}
           style={{ marginBottom: 16 }}
         >

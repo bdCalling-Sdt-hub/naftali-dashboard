@@ -26,8 +26,10 @@ const Teachers = () => {
     return <p>Loading...</p>;
   }
 
-  const data = teachersData?.data;
-  // console.log(data);
+  const data = teachersData?.data?.filter(
+    (teacher) => teacher.type === "platform"
+  );
+  console.log(data);
 
   const columns = [
     {
@@ -109,7 +111,6 @@ const Teachers = () => {
               Details
             </Button>
           </Link>
-          <Button className="border border-red-600 text-red-700">Remove</Button>
         </Space>
       ),
     },
@@ -125,13 +126,6 @@ const Teachers = () => {
     <>
       <div className="flex justify-between items-center my-5">
         <h1 className="text-2xl font-semibold">Teachers</h1>
-        <Button
-          className="bg-primary py-5 text-white"
-          icon={<PlusOutlined />}
-          onClick={() => setIsModalVisible(true)}
-        >
-          Add New Teacher
-        </Button>
       </div>
 
       <Table
